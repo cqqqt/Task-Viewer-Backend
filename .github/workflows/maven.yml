@@ -11,7 +11,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2022, macos-12]
+        os: [ubuntu-20.04, macos-12]
         java: [17]
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,10 +27,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-jdk-${{ matrix.java }}-maven-
       - run: |
-          POSTGRES_USER=user
-          POSTGRES_PASSWORD=password
-          POSTGRES_HOST=localhost
-          JDBC_LOG_LEVEL=DEBUG
-          WEB_LOG_LEVEL=DEBUG
-          APP_LOG_LEVEL=DEBUG
+          export POSTGRES_USER=user
+          export POSTGRES_PASSWORD=password
+          export POSTGRES_HOST=localhost
+          export JDBC_LOG_LEVEL=DEBUG
+          export WEB_LOG_LEVEL=DEBUG
+          export APP_LOG_LEVEL=DEBUG
           mvn clean install --errors --batch-mode
