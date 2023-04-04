@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   postgres:
+    container_name: api-postgres
     image: postgres:14.6-alpine
     restart: always
     environment:
@@ -13,6 +14,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
   api:
+    container_name: api
     env_file:
       - docker.env
     build:
