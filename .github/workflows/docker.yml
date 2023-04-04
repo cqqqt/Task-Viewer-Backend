@@ -23,5 +23,5 @@ jobs:
           tags: 0.0.$GITHUB_RUN_NUMBER, latest
           dockerfile: Dockerfile
           registry: docker.io
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: abialiauski
           password: ${{ secrets.DOCKER_PASSWORD }}
