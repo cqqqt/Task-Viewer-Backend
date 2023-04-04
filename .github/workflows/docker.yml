@@ -15,6 +15,12 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: |
+          POSTGRES_USER=user
+          POSTGRES_PASSWORD=password
+          POSTGRES_HOST=localhost
+          JDBC_LOG_LEVEL=DEBUG
+          WEB_LOG_LEVEL=DEBUG
+          APP_LOG_LEVEL=DEBUG
           mvn clean install
       - name: Build and Push to Docker Hub
         uses: mr-smithers-excellent/docker-build-push@v6
