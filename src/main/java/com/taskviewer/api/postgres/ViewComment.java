@@ -11,6 +11,11 @@ public class ViewComment implements RowMapper<Comment> {
 
   @Override
   public Comment mapRow(final ResultSet rs, final int rows) throws SQLException {
-    throw new UnsupportedOperationException("#mapRow()");
+    return new PgComment(
+      rs.getLong("id"),
+      rs.getString("content"),
+      rs.getString("username"),
+      rs.getString("title")
+    );
   }
 }

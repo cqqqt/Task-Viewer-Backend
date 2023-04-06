@@ -6,7 +6,7 @@ public interface Comment {
 
   String content();
 
-  String user();
+  String username();
 
   String task();
 }
