@@ -4,6 +4,8 @@ import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
 import com.taskviewer.api.web.rq.RqUser;
+import com.taskviewer.api.web.rq.RqUserUpdate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,21 @@ public class PgUsers implements Users {
       user.password(),
       user.role(),
       user.email()
+    );
+  }
+
+  @Override
+  public void update(final Long id, final RqUserUpdate request) {
+    this.jdbc.update(
+      """
+        UPDATE login 
+        SET firstname = ?,
+            lastname = ?
+        WHERE id = ?;
+        """,
+      request.firstname(),
+      request.lastname(),
+      id
     );
   }
 
@@ -120,7 +137,7 @@ public class PgUsers implements Users {
   }
 
   @Override
-  public Iterable<User> iterate(final String firstname, final String lastname) {
+  public List<User> iterate(final String firstname, final String lastname) {
     return this.jdbc.query(
       """
         SELECT l.id AS id,
@@ -140,7 +157,7 @@ public class PgUsers implements Users {
   }
 
   @Override
-  public Iterable<User> iterate() {
+  public List<User> iterate() {
     return this.jdbc.query(
       """
         SELECT l.id AS id,
