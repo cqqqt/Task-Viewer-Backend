@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class RsUser {
 
+  private Long id;
   private String username;
   private String email;
   private String role;
@@ -14,6 +15,7 @@ public class RsUser {
 
   public RsUser(final User usr) {
     this(
+      usr.id(),
       usr.username(),
       usr.email(),
       usr.role(),
@@ -22,11 +24,14 @@ public class RsUser {
     );
   }
 
-  public RsUser(final String usr,
-                final String eml,
-                final String rl,
-                final String first,
-                final String last) {
+  public RsUser(
+    final Long id,
+    final String usr,
+    final String eml,
+    final String rl,
+    final String first,
+    final String last) {
+    this.id = id;
     this.username = usr;
     this.email = eml;
     this.role = rl;

@@ -1,20 +1,19 @@
 package com.taskviewer.api.model;
 
-import com.taskviewer.api.web.rq.RqUser;
-import com.taskviewer.api.web.rq.RqUserUpdate;
 import java.util.List;
+import java.util.Optional;
 
 public interface Users {
 
-  void add(RqUser request);
+  void add(User user);
 
-  void update(Long id, RqUserUpdate request);
+  void update(User user);
 
-  User user(Long id);
+  Optional<User> byId(Long id);
 
-  User user(String username);
+  Optional<User> byUsername(String username);
 
-  User byEmail(String email);
+  Optional<User> byEmail(String email);
 
   List<User> iterate(String firstname, String lastname);
 

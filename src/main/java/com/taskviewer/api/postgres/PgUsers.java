@@ -1,11 +1,9 @@
 package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.User;
-import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
-import com.taskviewer.api.web.rq.RqUser;
-import com.taskviewer.api.web.rq.RqUserUpdate;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,7 @@ public class PgUsers implements Users {
   private final JdbcTemplate jdbc;
 
   @Override
-  public void add(final RqUser user) {
+  public void add(final User user) {
     this.jdbc.update(
       """
         INSERT INTO login(
@@ -35,7 +33,7 @@ public class PgUsers implements Users {
   }
 
   @Override
-  public void update(final Long id, final RqUserUpdate request) {
+  public void update(final User user) {
     this.jdbc.update(
       """
         UPDATE login 
@@ -43,14 +41,14 @@ public class PgUsers implements Users {
             lastname = ?
         WHERE id = ?;
         """,
-      request.firstname(),
-      request.lastname(),
-      id
+      user.firstname(),
+      user.lastname(),
+      user.id()
     );
   }
 
   @Override
-  public User user(final Long id) {
+  public Optional<User> byId(final Long id) {
     return this.jdbc.query(
         """
           SELECT l.id AS id,
@@ -66,20 +64,11 @@ public class PgUsers implements Users {
         id
       )
       .stream()
-      .findFirst()
-      .orElseThrow(
-        () ->
-          new UserNotFoundException(
-            "User with id %s is not found"
-              .formatted(
-                id
-              )
-          )
-      );
+      .findFirst();
   }
 
   @Override
-  public User user(final String username) {
+  public Optional<User> byUsername(final String username) {
     return this.jdbc.query(
         """
           SELECT l.id AS id,
@@ -95,20 +84,11 @@ public class PgUsers implements Users {
         username
       )
       .stream()
-      .findFirst()
-      .orElseThrow(
-        () ->
-          new UserNotFoundException(
-            "User with username %s is not found"
-              .formatted(
-                username
-              )
-          )
-      );
+      .findFirst();
   }
 
   @Override
-  public User byEmail(final String email) {
+  public Optional<User> byEmail(final String email) {
     return this.jdbc.query(
         """
           SELECT l.id AS id,
@@ -124,16 +104,7 @@ public class PgUsers implements Users {
         email
       )
       .stream()
-      .findFirst()
-      .orElseThrow(
-        () ->
-          new UserNotFoundException(
-            "User with email %s is not found"
-              .formatted(
-                email
-              )
-          )
-      );
+      .findFirst();
   }
 
   @Override

@@ -1,10 +1,8 @@
 package com.taskviewer.api.service;
 
 import com.taskviewer.api.model.User;
+import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
-import com.taskviewer.api.web.rq.RqUser;
-import com.taskviewer.api.web.rq.RqUserUpdate;
-import com.taskviewer.api.web.rs.RsUser;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,39 +17,52 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public void create(final RqUser request) {
-    this.users.add(request);
+  public User with(final User user) {
+    this.users.add(user);
+    return this.byUsername(user.username());
   }
 
   @Transactional
   @Override
-  public RsUser update(final Long id, final RqUserUpdate request) {
-    this.users.update(id, request);
-    return new RsUser(this.users.user(id));
+  public User update(final User user) {
+    this.users.update(user);
+    return this.byId(user.id());
   }
 
   @Override
-  public RsUser user(final String username) {
-    final User user = this.users.user(username);
-    return new RsUser(user);
+  public User byId(final Long id) {
+    return this.users.byId(id)
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with id %s is not found"
+              .formatted(
+                id
+              )
+          )
+      );
   }
 
   @Override
-  public List<RsUser> iterate(final UserSearchCriteria criteria) {
-    return this.users.iterate(
-        criteria.firstname(),
-        criteria.lastname()
-      )
-      .stream()
-      .map(RsUser::new)
-      .toList();
+  public User byUsername(final String username) {
+    return this.users.byUsername(username)
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with username %s is not found"
+              .formatted(
+                username
+              )
+          )
+      );
   }
 
   @Override
-  public List<RsUser> iterate() {
-    return this.users.iterate()
-      .stream()
-      .map(RsUser::new)
-      .toList();
+  public List<User> iterate(final UserSearchCriteria criteria) {
+    if (criteria.firstname() != null && criteria.lastname() != null) {
+      return this.users.iterate(criteria.firstname(), criteria.lastname());
+    } else {
+      return this.users.iterate();
+    }
   }
 }

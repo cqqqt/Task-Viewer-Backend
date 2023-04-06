@@ -13,4 +13,6 @@ public interface User {
   String firstname();
 
   String lastname();
+
+  String password();
 }

@@ -1,19 +1,17 @@
 package com.taskviewer.api.service;
 
-import com.taskviewer.api.web.rq.RqUser;
-import com.taskviewer.api.web.rq.RqUserUpdate;
-import com.taskviewer.api.web.rs.RsUser;
+import com.taskviewer.api.model.User;
 import java.util.List;
 
 public interface UserService {
 
-  void create(RqUser request);
+  User with(User user);
 
-  RsUser update(Long id, RqUserUpdate request);
+  User update(User user);
 
-  RsUser user(String username);
+  User byId(Long id);
 
-  List<RsUser> iterate(UserSearchCriteria criteria);
+  User byUsername(String username);
 
-  List<RsUser> iterate();
+  List<User> iterate(UserSearchCriteria criteria);
 }
