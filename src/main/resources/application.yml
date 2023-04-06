@@ -25,3 +25,8 @@ management:
       exposure:
         include: '*'
       base-path: /system
+security:
+  jwt:
+    access: ${ACCESS_TIME_IN_MINUTES}
+    refresh: ${REFRESH_TIME_IN_HOURS}
+    secret: ${SECRET}
