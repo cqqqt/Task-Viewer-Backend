@@ -1,8 +1,10 @@
 package com.taskviewer.api.model;
 
+import com.taskviewer.api.web.rq.RqUser;
+
 public interface Users {
 
-  void add(User user);
+  void add(RqUser user);
 
   User user(Long id) throws UserNotFoundException;
 

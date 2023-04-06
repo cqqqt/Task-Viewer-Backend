@@ -3,8 +3,8 @@ package com.taskviewer.api.postgres;
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
+import com.taskviewer.api.web.rq.RqUser;
 import lombok.RequiredArgsConstructor;
-import org.cactoos.text.FormattedText;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +15,25 @@ public class PgUsers implements Users {
   private final JdbcTemplate jdbc;
 
   @Override
-  public void add(final User user) {
-    this.jdbc.execute(
+  public void add(final RqUser user) {
+    this.jdbc.update(
       """
         INSERT INTO login(
         username, firstname, lastname, password, role, email
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?) 
-        """
+        VALUES (?, ?, ?, ?, ?, ?); 
+        """,
+      user.username(),
+      user.firstname(),
+      user.lastname(),
+      user.password(),
+      user.role(),
+      user.email()
     );
   }
 
   @Override
-  public User user(final Long id) throws UserNotFoundException {
+  public User user(final Long id) {
     return this.jdbc.query(
         """
           SELECT l.id AS id,
@@ -44,33 +50,108 @@ public class PgUsers implements Users {
       )
       .stream()
       .findFirst()
-      .orElseThrow(() ->
-        new UserNotFoundException(
-          "User with id %s is not found"
-            .formatted(
-              id
-            )
-        )
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with id %s is not found"
+              .formatted(
+                id
+              )
+          )
       );
   }
 
   @Override
   public User user(final String username) {
-    return null;
+    return this.jdbc.query(
+        """
+          SELECT l.id AS id,
+                 l.username AS username,
+                 l.email AS email,
+                 l.firstname AS firstname,
+                 l.lastname AS lastname,
+                 l.role AS role
+                 FROM login l
+          WHERE l.username = ? 
+          """,
+        new SafeUser(),
+        username
+      )
+      .stream()
+      .findFirst()
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with username %s is not found"
+              .formatted(
+                username
+              )
+          )
+      );
   }
 
   @Override
-  public User byEmail(String email) {
-    throw new UnsupportedOperationException("#byEmail()");
+  public User byEmail(final String email) {
+    return this.jdbc.query(
+        """
+          SELECT l.id AS id,
+                 l.username AS username,
+                 l.email AS email,
+                 l.firstname AS firstname,
+                 l.lastname AS lastname,
+                 l.role AS role
+                 FROM login l
+          WHERE l.email = ?
+          """,
+        new SafeUser(),
+        email
+      )
+      .stream()
+      .findFirst()
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with email %s is not found"
+              .formatted(
+                email
+              )
+          )
+      );
   }
 
   @Override
-  public Iterable<User> iterate(String firstname, String lastname) {
-    throw new UnsupportedOperationException("#iterate()");
+  public Iterable<User> iterate(final String firstname, final String lastname) {
+    return this.jdbc.query(
+      """
+        SELECT l.id AS id,
+                 l.username AS username,
+                 l.email AS email,
+                 l.firstname AS firstname,
+                 l.lastname AS lastname,
+                 l.role AS role
+                 FROM login l
+          WHERE l.firstname = ? 
+          AND l.lastname = ?       
+        """,
+      new SafeUser(),
+      firstname,
+      lastname
+    );
   }
 
   @Override
   public Iterable<User> iterate() {
-    throw new UnsupportedOperationException("#iterate()");
+    return this.jdbc.query(
+      """
+        SELECT l.id AS id,
+                 l.username AS username,
+                 l.email AS email,
+                 l.firstname AS firstname,
+                 l.lastname AS lastname,
+                 l.role AS role
+                 FROM login l
+        """,
+      new SafeUser()
+    );
   }
 }

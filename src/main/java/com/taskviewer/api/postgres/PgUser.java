@@ -45,9 +45,4 @@ public class PgUser implements User {
   public String email() {
     return this.email;
   }
-
-  @Override
-  public Iterable<Task> tasks() {
-    return Collections.unmodifiableList(this.tasks);
-  }
 }

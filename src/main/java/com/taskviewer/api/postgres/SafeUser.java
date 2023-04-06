@@ -13,11 +13,11 @@ public class SafeUser implements RowMapper<User> {
   public User mapRow(final ResultSet rs, final int rows) throws SQLException {
     return PgUser.builder()
       .id(rs.getLong("id"))
-      .username("username")
-      .email("email")
-      .firstname("firstname")
-      .lastname("lastname")
-      .role("role")
+      .username(rs.getString("username"))
+      .email(rs.getString("email"))
+      .firstname(rs.getString("firstname"))
+      .lastname(rs.getString("lastname"))
+      .role(rs.getString("role"))
       .build();
   }
 }
