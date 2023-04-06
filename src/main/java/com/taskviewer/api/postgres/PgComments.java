@@ -21,12 +21,12 @@ public class PgComments implements Comments {
         INSERT INTO comment(login, task, content)
         VALUES (
                 (SELECT l.id FROM login l WHERE l.username = ?),
-                (SELECT t.id FROM task t WHERE t.title = ?),
+                ?,
                 ?
         );
         """,
       request.username(),
-      request.title(),
+      request.task(),
       request.content()
     );
   }
