@@ -21,6 +21,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                     .formatted(username));
     User user = users.byUsername(username)
             .orElseThrow(() -> exception);
-    return JwtUserDetailsFactory.create(user);
+    JwtUserDetailsFactory factory = new JwtUserDetailsFactory(user);
+    return factory.userDetails();
   }
 }

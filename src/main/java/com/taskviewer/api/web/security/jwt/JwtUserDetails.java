@@ -3,7 +3,6 @@ package com.taskviewer.api.web.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.taskviewer.api.model.User;
-import com.taskviewer.api.postgres.PgUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,18 +27,6 @@ public class JwtUserDetails implements UserDetails {
     this.user = user;
     this.enabled = true;
     this.authorities = GrantedAuthorityMapper.mapToGrantedAuthority(roles);
-  }
-
-  public JwtUserDetails(Long id, String username, List<? extends GrantedAuthority> authorities) {
-    String role = authorities.get(0).getAuthority();
-    User user = PgUser.builder()
-            .id(id)
-            .username(username)
-            .role(role)
-            .build();
-    this.user = user;
-    this.enabled = true;
-    this.authorities = authorities;
   }
 
   @Override

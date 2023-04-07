@@ -4,7 +4,6 @@ import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.jwt.JwtToken;
 import com.taskviewer.api.service.JwtService;
 import com.taskviewer.api.service.props.JwtProperties;
-import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import com.taskviewer.api.web.security.jwt.JwtUserDetailsFactory;
 import com.taskviewer.api.web.security.jwt.JwtUserDetailsService;
 import io.jsonwebtoken.Claims;
@@ -86,8 +85,10 @@ public class JwtServiceImpl implements JwtService {
   @Override
   public Authentication getAuthentication(JwtToken token) {
     Claims claims = parse(token);
-    JwtUserDetails jwtUserDetails = JwtUserDetailsFactory.create(claims);
-    UserDetails userDetails = userDetailsService.loadUserByUsername(jwtUserDetails.getUsername());
+    JwtUserDetailsFactory factory = new JwtUserDetailsFactory(claims);
+    UserDetails userDetails = userDetailsService.loadUserByUsername(
+            factory.userDetails().getUsername()
+    );
     return new UsernamePasswordAuthenticationToken(
             userDetails,
             "",
