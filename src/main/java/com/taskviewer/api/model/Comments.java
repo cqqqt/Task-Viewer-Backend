@@ -1,16 +1,21 @@
 package com.taskviewer.api.model;
 
-import com.taskviewer.api.web.rq.RqComment;
+import java.util.List;
+import java.util.Optional;
 
 public interface Comments {
 
-  void add(RqComment request);
+  Long add(Comment comment);
 
-  Comment comment(Long id);
+  void delete(Long id);
 
-  Iterable<Comment> byUser(Long user);
+  void update(Comment comment);
 
-  Iterable<Comment> byTask(Long task);
+  Optional<Comment> byId(Long id);
 
-  Iterable<Comment> iterate(Long user, Long task);
+  List<Comment> byUser(Long user);
+
+  List<Comment> byTask(Long task);
+
+  List<Comment> iterate(Long user, Long task);
 }

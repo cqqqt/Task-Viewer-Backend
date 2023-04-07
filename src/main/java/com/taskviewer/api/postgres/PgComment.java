@@ -2,16 +2,28 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Comment;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class PgComment implements Comment {
 
   private Long id;
   private String content;
   private String username;
-  private String task;
+  private Long task;
+
+  @Override
+  public Comment withId(final Long id) {
+    return new PgComment(
+      id,
+      this.content,
+      this.username,
+      this.task
+    );
+  }
 
   @Override
   public Long id() {
@@ -29,7 +41,7 @@ public class PgComment implements Comment {
   }
 
   @Override
-  public String task() {
+  public Long task() {
     return this.task;
   }
 }

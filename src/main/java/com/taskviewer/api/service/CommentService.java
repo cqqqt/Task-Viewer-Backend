@@ -9,11 +9,9 @@ public interface CommentService {
 
   Comment update(Comment comment);
 
+  void delete(Long id);
+
   Comment byId(Long id);
 
-  List<Comment> iterate(String username);
-
-  List<Comment> iterate(Long task);
-
-  List<Comment> iterate(Long user, Long task);
+  List<Comment> iterate(CommentSearchCriteria criteria);
 }
