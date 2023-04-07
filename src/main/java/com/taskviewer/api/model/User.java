@@ -9,4 +9,10 @@ public interface User {
   String role();
 
   String email();
+
+  String firstname();
+
+  String lastname();
+
+  String password();
 }

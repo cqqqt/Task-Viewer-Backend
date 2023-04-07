@@ -1,19 +1,14 @@
 package com.taskviewer.api.postgres;
 
-import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.User;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
 @Builder
-@RequiredArgsConstructor
 public class PgUser implements User {
 
   private Long id;
@@ -24,7 +19,6 @@ public class PgUser implements User {
   private String lastname;
   private String password;
   private LocalDateTime created;
-  private List<Task> tasks;
 
   @Override
   public Long id() {
@@ -44,5 +38,20 @@ public class PgUser implements User {
   @Override
   public String email() {
     return this.email;
+  }
+
+  @Override
+  public String firstname() {
+    return this.firstname;
+  }
+
+  @Override
+  public String lastname() {
+    return this.lastname;
+  }
+
+  @Override
+  public String password() {
+    return this.password;
   }
 }

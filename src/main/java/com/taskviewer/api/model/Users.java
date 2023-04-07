@@ -1,18 +1,21 @@
 package com.taskviewer.api.model;
 
-import com.taskviewer.api.web.rq.RqUser;
+import java.util.List;
+import java.util.Optional;
 
 public interface Users {
 
-  void add(RqUser user);
+  void add(User user);
 
-  User user(Long id) throws UserNotFoundException;
+  void update(User user);
 
-  User user(String username);
+  Optional<User> byId(Long id);
 
-  User byEmail(String email);
+  Optional<User> byUsername(String username);
 
-  Iterable<User> iterate(String firstname, String lastname);
+  Optional<User> byEmail(String email);
 
-  Iterable<User> iterate();
+  List<User> iterate(String firstname, String lastname);
+
+  List<User> iterate();
 }

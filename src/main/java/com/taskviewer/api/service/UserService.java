@@ -1,0 +1,17 @@
+package com.taskviewer.api.service;
+
+import com.taskviewer.api.model.User;
+import java.util.List;
+
+public interface UserService {
+
+  User with(User user);
+
+  User update(User user);
+
+  User byId(Long id);
+
+  User byUsername(String username);
+
+  List<User> iterate(UserSearchCriteria criteria);
+}

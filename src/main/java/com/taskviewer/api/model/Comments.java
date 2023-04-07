@@ -1,12 +1,21 @@
 package com.taskviewer.api.model;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface Comments {
 
-  Comment comment(Long id);
+  Long add(Comment comment);
 
-  Iterable<Comment> iterate(Long user);
+  void delete(Long id);
 
-  Iterable<Comment> iterate(Long user, Long task);
+  void update(Comment comment);
 
-  Iterable<Comment> with(Long task);
+  Optional<Comment> byId(Long id);
+
+  List<Comment> byUser(Long user);
+
+  List<Comment> byTask(Long task);
+
+  List<Comment> iterate(Long user, Long task);
 }
