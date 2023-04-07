@@ -13,4 +13,5 @@ public interface Tasks {
   Iterable<Task> with(String status);
 
   Iterable<Task> iterate();
+
 }
