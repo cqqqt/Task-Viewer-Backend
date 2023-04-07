@@ -2,16 +2,16 @@ package com.taskviewer.api.model;
 
 public interface Tasks {
 
-  Task task(Long id);
+  Task byId(Long id);
 
-  Iterable<Task> iterate(String username);
+  Iterable<Task> byUsername(String username);
 
   Iterable<Task> byEmail(String email);
 
-  Iterable<Task> iterate(int priority);
+  Iterable<Task> withPriority(int priority);
 
-  Iterable<Task> with(String status);
+  Iterable<Task> withStatus(String status);
 
-  Iterable<Task> iterate();
+  Iterable<Task> all();
 
 }

@@ -75,7 +75,7 @@ public class PgTasks implements Tasks {
 		FROM task t""";
 
 	@Override
-	public Task task(Long id) {
+	public Task byId(Long id) {
 		return jdbc.query(FIND_BY_ID, view, id)
 				.stream()
 				.findFirst()
@@ -85,7 +85,7 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
-	public Iterable<Task> iterate(String username) {
+	public Iterable<Task> byUsername(String username) {
 		return jdbc.query(FIND_BY_USERNAME, view, username);
 	}
 
@@ -95,17 +95,17 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
-	public Iterable<Task> iterate(int priority) {
+	public Iterable<Task> withPriority(int priority) {
 		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
 	}
 
 	@Override
-	public Iterable<Task> with(String status) {
+	public Iterable<Task> withStatus(String status) {
 		return jdbc.query(FIND_WITH_STATUS, view, status);
 	}
 
 	@Override
-	public Iterable<Task> iterate() {
+	public Iterable<Task> all() {
 		return jdbc.query(FIND_ALL, view);
 	}
 

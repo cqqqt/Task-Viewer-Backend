@@ -36,7 +36,7 @@ class PgTasksUnitTest {
 	private PgTasks pgTasks;
 
 	@Test
-	void verifiesTask() {
+	void verifiesById() {
 		long id = 1;
 		Task task = PgTask.builder()
 				.id( id )
@@ -50,23 +50,23 @@ class PgTasksUnitTest {
 				.build();
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id) ).thenReturn( Collections.singletonList(task) );
 
-		assertEquals(task, pgTasks.task(1L));
+		assertEquals(task, pgTasks.byId(1L));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
 
 	@Test
-	void verifiesNotFoundTask() {
+	void verifiesNotFoundById() {
 		long id = 0;
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id )).thenReturn( Collections.emptyList() );
 
 		assertThrows(TaskNotFoundException.class,
-					 () -> pgTasks.task(id),
+					 () -> pgTasks.byId(id),
 					 "Task with id %s not found".formatted(id));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
 
 	@Test
-	void verifiesUsernameIterate() {
+	void verifiesByUsername() {
 		Task task1 = PgTask.builder()
 				.id( 1L )
 				.title("Test")
@@ -93,7 +93,7 @@ class PgTasksUnitTest {
 		String username = "testUsername";
 		when( jdbc.query(PgTasks.FIND_BY_USERNAME, view, username)).thenReturn(tasks);
 
-		assertEquals(tasks, pgTasks.iterate(username));
+		assertEquals(tasks, pgTasks.byUsername(username));
 		verify(jdbc).query(PgTasks.FIND_BY_USERNAME, view, username);
 	}
 
@@ -130,7 +130,7 @@ class PgTasksUnitTest {
 	}
 
 	@Test
-	void verifiesPriorityIterate() {
+	void verifiesWithPriority() {
 		int priority = 1;
 		String value = "HIGH";
 		Task task1 = PgTask.builder()
@@ -158,7 +158,7 @@ class PgTasksUnitTest {
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_WITH_PRIORITY, view, priority)).thenReturn(tasks);
 
-		assertEquals(tasks, pgTasks.iterate(priority));
+		assertEquals(tasks, pgTasks.withPriority(priority));
 		verify(jdbc).query(PgTasks.FIND_WITH_PRIORITY, view, priority);
 	}
 
@@ -191,12 +191,12 @@ class PgTasksUnitTest {
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_WITH_STATUS, view, value)).thenReturn(tasks);
 
-		assertEquals(tasks, pgTasks.with(value));
+		assertEquals(tasks, pgTasks.withStatus(value));
 		verify(jdbc).query(PgTasks.FIND_WITH_STATUS, view, value);
 	}
 
 	@Test
-	void verifiesIterate() {
+	void verifiesFindAll() {
 		Task task1 = PgTask.builder()
 				.id( 1L )
 				.title("Test")
@@ -222,7 +222,7 @@ class PgTasksUnitTest {
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_ALL, view)).thenReturn(tasks);
 
-		assertEquals(tasks, pgTasks.iterate());
+		assertEquals(tasks, pgTasks.all());
 		verify(jdbc).query(PgTasks.FIND_ALL, view);
 	}
 
