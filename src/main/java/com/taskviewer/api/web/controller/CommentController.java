@@ -73,7 +73,9 @@ public class CommentController {
         )
       );
     } else {
-      throw new RqForbidden("you can not update someone's else comment");
+      throw new RqForbiddenException(
+        "you can not update someone's else comment"
+      );
     }
   }
 
@@ -97,7 +99,9 @@ public class CommentController {
     if (can) {
       this.comments.delete(id);
     } else {
-      throw new RqForbidden("you can't delete someone's else comment");
+      throw new RqForbiddenException(
+        "you can't delete someone's else comment"
+      );
     }
   }
 
