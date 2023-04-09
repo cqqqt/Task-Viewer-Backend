@@ -11,4 +11,6 @@ public interface Task {
   Status status();
 
   TimeEstimate time();
+
+  Long user();
 }
