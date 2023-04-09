@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Base64;
 import java.util.Properties;
 
 @Configuration
@@ -21,8 +22,12 @@ public class MailConfig {
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(this.mailProperty.getHost());
-        mailSender.setUsername(this.mailProperty.getUsername());
-        mailSender.setPassword(this.mailProperty.getPassword());
+        mailSender.setUsername(new String(
+                Base64.getDecoder()
+                        .decode(this.mailProperty.getUsername())));
+        mailSender.setPassword(new String(
+                Base64.getDecoder()
+                        .decode(this.mailProperty.getPassword())));
         mailSender.setPort(this.mailProperty.getPort());
         Properties properties = mailSender.getJavaMailProperties();
         properties.setProperty("mail.smtp.starttls.enable", "true");
