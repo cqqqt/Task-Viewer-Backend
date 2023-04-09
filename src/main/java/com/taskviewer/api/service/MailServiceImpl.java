@@ -25,7 +25,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @SneakyThrows
-    public void send(final User user, final String subject, final String message) {
+    public void send(User user, String subject, String message) {
         MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();

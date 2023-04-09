@@ -33,7 +33,9 @@ public class ExpirationEmailScheduler implements Scheduler {
                             LocalDateTime.now(), task.time().estimate())
                     .getSeconds();
             if (left <= 0.2 * full) {
-                this.mailService.send(this.userService.byId(task.user()), "Expiration email",
+                this.mailService.send(
+                        this.userService.byId(task.user()),
+                        "Expiration email",
                         "Your task '" + task.title() + "' will be expired soon.");
             }
         });
