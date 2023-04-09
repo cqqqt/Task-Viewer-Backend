@@ -93,9 +93,10 @@ public class PgComments implements Comments {
   public List<Comment> byUser(final Long user) {
     return this.jdbc.query(
       """
-        SELECT l.username AS username,
-                t.title    AS title,
-                c.content  AS content
+        SELECT c.id as id,
+               l.username AS username,
+               t.id    AS tid,
+               c.content  AS content
         FROM comment c
                   JOIN login l on l.id = c.login
                   JOIN task t on t.id = c.task
@@ -140,4 +141,5 @@ public class PgComments implements Comments {
       task
     );
   }
+
 }
