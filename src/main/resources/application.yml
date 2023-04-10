@@ -1,6 +1,8 @@
 spring:
   application:
     name: task-viewer-api
+  config:
+    import: optional:.env[.properties]
   datasource:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}

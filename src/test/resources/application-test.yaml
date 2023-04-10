@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${TEST_URL}
+    username: ${TEST_USERNAME}
+    password: ${TEST_PASSWORD}
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    hibernate:
+      ddl-auto: create

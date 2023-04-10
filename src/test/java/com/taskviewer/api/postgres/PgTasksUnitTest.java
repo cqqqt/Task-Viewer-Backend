@@ -2,7 +2,6 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Status;
 import com.taskviewer.api.model.Task;
-import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.TimeEstimate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +16,9 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +41,7 @@ class PgTasksUnitTest {
 				.id( id )
 				.title("Test")
 				.about("Task for test")
+				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -50,7 +50,7 @@ class PgTasksUnitTest {
 				.build();
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id) ).thenReturn( Collections.singletonList(task) );
 
-		assertEquals(task, pgTasks.byId(1L));
+		assertEquals(Optional.of(task), pgTasks.byId(1L));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
 
@@ -59,18 +59,18 @@ class PgTasksUnitTest {
 		long id = 0;
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id )).thenReturn( Collections.emptyList() );
 
-		assertThrows(TaskNotFoundException.class,
-					 () -> pgTasks.byId(id),
-					 "Task with id %s not found".formatted(id));
+		assertEquals(Optional.empty(), pgTasks.byId(id));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
 
 	@Test
 	void verifiesByUsername() {
+		String username = "test-username";
 		Task task1 = PgTask.builder()
 				.id( 1L )
 				.title("Test")
 				.about("Task for test #1")
+				.username(username)
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -81,6 +81,7 @@ class PgTasksUnitTest {
 				.id( 2L )
 				.title("Test")
 				.about("Task for test #2")
+				.username(username)
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
@@ -90,7 +91,6 @@ class PgTasksUnitTest {
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
-		String username = "testUsername";
 		when( jdbc.query(PgTasks.FIND_BY_USERNAME, view, username)).thenReturn(tasks);
 
 		assertEquals(tasks, pgTasks.byUsername(username));
@@ -103,6 +103,7 @@ class PgTasksUnitTest {
 				.id( 1L )
 				.title("Test")
 				.about("Task for test #1")
+				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -113,6 +114,7 @@ class PgTasksUnitTest {
 				.id( 2L )
 				.title("Test")
 				.about("Task for test #2")
+				.username("test-username")
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
@@ -137,6 +139,7 @@ class PgTasksUnitTest {
 				.id( 1L )
 				.title("Test")
 				.about("Task for test #1")
+				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -147,6 +150,7 @@ class PgTasksUnitTest {
 				.id( 2L )
 				.title("Test")
 				.about("Task for test #2")
+				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
@@ -170,6 +174,7 @@ class PgTasksUnitTest {
 				.id( 1L )
 				.title("Test")
 				.about("Task for test #1")
+				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -180,6 +185,7 @@ class PgTasksUnitTest {
 				.id( 2L )
 				.title("Test")
 				.about("Task for test #2")
+				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
@@ -201,6 +207,7 @@ class PgTasksUnitTest {
 				.id( 1L )
 				.title("Test")
 				.about("Task for test #1")
+				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
@@ -211,6 +218,7 @@ class PgTasksUnitTest {
 				.id( 2L )
 				.title("Test")
 				.about("Task for test #2")
+				.username("test-username")
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
 						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
