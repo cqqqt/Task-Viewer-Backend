@@ -18,4 +18,8 @@ public interface Users {
   List<User> iterate(String firstname, String lastname);
 
   List<User> iterate();
+
+  Optional<String> password(Long id);
+
+  boolean exists(String email, String username);
 }

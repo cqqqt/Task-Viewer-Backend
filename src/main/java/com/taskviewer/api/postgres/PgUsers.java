@@ -2,11 +2,12 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.Users;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -141,5 +142,40 @@ public class PgUsers implements Users {
         """,
       new SafeUser()
     );
+  }
+
+  @Override
+  public Optional<String> password(Long id) {
+    return this.jdbc.query(
+        """
+          SELECT l.password AS password
+          FROM login l
+          WHERE l.id = ?
+          """,
+        new PasswordRowMapper(),
+        id
+      )
+      .stream()
+      .findFirst();
+  }
+
+  @Override
+  public boolean exists(String email, String username) {
+    return this.jdbc.query(
+        """
+          SELECT EXISTS(
+          SELECT 1
+          FROM login
+          WHERE email = ?
+          OR username = ?
+          )
+          """,
+        new BooleanRowMapper(),
+        email,
+        username
+      )
+      .stream()
+      .findFirst()
+      .get();
   }
 }

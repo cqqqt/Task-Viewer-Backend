@@ -1,5 +1,7 @@
 package com.taskviewer.api.web.controller;
 
+import com.taskviewer.api.model.AuthenticationException;
+import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.web.rs.RsError;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,26 @@ public class RestExceptions {
     log.debug(message);
     return new RsError.WithCode(
       404,
+      message
+    );
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public RsError authenticationException(final AuthenticationException ex) {
+    final String message = ex.getMessage();
+    log.debug(message);
+    return new RsError.WithCode(
+      400,
+      message
+    );
+  }
+
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  public RsError alreadyExistsException(final UserAlreadyExistsException ex) {
+    final String message = ex.getMessage();
+    log.debug(message);
+    return new RsError.WithCode(
+      409,
       message
     );
   }
