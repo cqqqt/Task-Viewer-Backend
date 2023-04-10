@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -22,31 +24,31 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Task> byUsername(String username) {
+	public List<Task> byUsername(String username) {
 		return tasks.byUsername(username);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Task> byEmail(String email) {
+	public List<Task> byEmail(String email) {
 		return tasks.byEmail(email);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Task> withPriority(int priority) {
+	public List<Task> withPriority(int priority) {
 		return tasks.withPriority(priority);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Task> withStatus(String status) {
+	public List<Task> withStatus(String status) {
 		return tasks.withStatus(status);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Task> all() {
+	public List<Task> all() {
 		return tasks.all();
 	}
 
