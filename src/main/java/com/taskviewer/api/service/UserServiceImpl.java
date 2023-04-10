@@ -3,10 +3,11 @@ package com.taskviewer.api.service;
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
 @Component
@@ -55,6 +56,25 @@ public class UserServiceImpl implements UserService {
               )
           )
       );
+  }
+
+  @Override
+  public String password(final User user) {
+    return this.users.password(user.id())
+      .orElseThrow(
+        () ->
+          new UserNotFoundException(
+            "User with id %s is not found"
+              .formatted(
+                user.id()
+              )
+          )
+      );
+  }
+
+  @Override
+  public boolean userExists(final String email, final String username) {
+    return this.users.exists(email, username);
   }
 
   @Override
