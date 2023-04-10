@@ -1,11 +1,17 @@
 package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Comment;
-import com.taskviewer.api.model.CommentNotFoundException;
 import com.taskviewer.api.model.Comments;
-import com.taskviewer.api.web.rq.RqComment;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,30 +19,63 @@ import org.springframework.stereotype.Component;
 public class PgComments implements Comments {
 
   private final JdbcTemplate jdbc;
+  private final NamedParameterJdbcTemplate named;
 
   @Override
-  public void add(final RqComment request) {
-    this.jdbc.update(
+  public Long add(final Comment comment) {
+    final KeyHolder keys = new GeneratedKeyHolder();
+    final Map<String, Object> values = new HashMap<>(4);
+    values.put("login", comment.username());
+    values.put("task", comment.task());
+    values.put("content", comment.content());
+    this.named.update(
       """
         INSERT INTO comment(login, task, content)
         VALUES (
-                (SELECT l.id FROM login l WHERE l.username = ?),
-                ?,
-                ?
+                (SELECT l.id FROM login l WHERE l.username = :login),
+                :task,
+                :content
         );
         """,
-      request.username(),
-      request.task(),
-      request.content()
+      new MapSqlParameterSource(
+        values
+      ),
+      keys,
+      new String[] {"id"}
+    );
+    return (Long) keys.getKey();
+  }
+
+  @Override
+  public void delete(final Long id) {
+    this.jdbc.update(
+      """
+        DELETE FROM comment WHERE id = ?
+        """,
+      id
     );
   }
 
   @Override
-  public Comment comment(final Long id) {
+  public void update(final Comment comment) {
+    this.jdbc.update(
+      """
+        UPDATE comment
+        SET content = ?
+        WHERE id = ?
+        """,
+      comment.content(),
+      comment.id()
+    );
+  }
+
+  @Override
+  public Optional<Comment> byId(final Long id) {
     return this.jdbc.query(
         """
-          SELECT l.username AS username,
-                 t.title    AS title,
+          SELECT c.id AS id,
+              l.username AS username,
+                 t.id    AS tid,
                  c.content  AS content
           FROM comment c
                    JOIN login l on l.id = c.login
@@ -47,25 +86,17 @@ public class PgComments implements Comments {
         id
       )
       .stream()
-      .findFirst()
-      .orElseThrow(
-        () ->
-          new CommentNotFoundException(
-            "Comment with id %s not found"
-              .formatted(
-                id
-              )
-          )
-      );
+      .findFirst();
   }
 
   @Override
-  public Iterable<Comment> byUser(final Long user) {
+  public List<Comment> byUser(final Long user) {
     return this.jdbc.query(
       """
-        SELECT l.username AS username,
-                t.title    AS title,
-                c.content  AS content
+        SELECT c.id as id,
+               l.username AS username,
+               t.id    AS tid,
+               c.content  AS content
         FROM comment c
                   JOIN login l on l.id = c.login
                   JOIN task t on t.id = c.task
@@ -77,7 +108,7 @@ public class PgComments implements Comments {
   }
 
   @Override
-  public Iterable<Comment> byTask(final Long task) {
+  public List<Comment> byTask(final Long task) {
     return this.jdbc.query(
       """
         SELECT l.username AS username,
@@ -94,7 +125,7 @@ public class PgComments implements Comments {
   }
 
   @Override
-  public Iterable<Comment> iterate(final Long user, final Long task) {
+  public List<Comment> iterate(final Long user, final Long task) {
     return this.jdbc.query(
       """
          SELECT l.username AS username,
@@ -110,4 +141,5 @@ public class PgComments implements Comments {
       task
     );
   }
+
 }

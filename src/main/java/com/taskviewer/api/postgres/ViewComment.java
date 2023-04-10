@@ -15,7 +15,7 @@ public class ViewComment implements RowMapper<Comment> {
       rs.getLong("id"),
       rs.getString("content"),
       rs.getString("username"),
-      rs.getString("title")
+      rs.getLong("tid")
     );
   }
 }

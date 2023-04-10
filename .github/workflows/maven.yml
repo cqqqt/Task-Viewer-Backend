@@ -33,4 +33,7 @@ jobs:
           export JDBC_LOG_LEVEL=DEBUG
           export WEB_LOG_LEVEL=DEBUG
           export APP_LOG_LEVEL=DEBUG
+          export ACCESS_TIME_IN_MINUTES=20
+          export REFRESH_TIME_IN_HOURS=24
+          export SECRET=c3pmZGdjZmh2Z2piaGpua21qa2Joamd2aGNmZ3hkZ2ZjaGd2aGJqbmttbmpiaHZnaA==
           mvn clean install --errors --batch-mode

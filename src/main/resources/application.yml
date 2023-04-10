@@ -27,3 +27,15 @@ management:
       exposure:
         include: '*'
       base-path: /system
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+
+security:
+  jwt:
+    access: ${ACCESS_TIME_IN_MINUTES}
+    refresh: ${REFRESH_TIME_IN_HOURS}
+    secret: ${SECRET}
