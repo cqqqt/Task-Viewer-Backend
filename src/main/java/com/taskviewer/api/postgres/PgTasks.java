@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -111,27 +112,27 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
-	public Iterable<Task> byUsername(String username) {
+	public List<Task> byUsername(String username) {
 		return jdbc.query(FIND_BY_USERNAME, view, username);
 	}
 
 	@Override
-	public Iterable<Task> byEmail(String email) {
+	public List<Task> byEmail(String email) {
 		return jdbc.query(FIND_BY_EMAIL, view, email);
 	}
 
 	@Override
-	public Iterable<Task> withPriority(int priority) {
+	public List<Task> withPriority(int priority) {
 		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
 	}
 
 	@Override
-	public Iterable<Task> withStatus(String status) {
+	public List<Task> withStatus(String status) {
 		return jdbc.query(FIND_WITH_STATUS, view, status);
 	}
 
 	@Override
-	public Iterable<Task> all() {
+	public List<Task> all() {
 		return jdbc.query(FIND_ALL, view);
 	}
 
