@@ -4,3 +4,6 @@ spring:
     username: ${TEST_USERNAME}
     password: ${TEST_PASSWORD}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  test:
+    database:
+      replace: none
