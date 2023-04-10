@@ -44,12 +44,17 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id) ).thenReturn( Collections.singletonList(task) );
-
 		assertEquals(Optional.of(task), pgTasks.byId(1L));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
@@ -58,7 +63,6 @@ class PgTasksUnitTest {
 	void verifiesNotFoundById() {
 		long id = 0;
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id )).thenReturn( Collections.emptyList() );
-
 		assertEquals(Optional.empty(), pgTasks.byId(id));
 		verify(jdbc).query(PgTasks.FIND_BY_ID, view, id);
 	}
@@ -73,9 +77,15 @@ class PgTasksUnitTest {
 				.username(username)
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		Task task2 = PgTask.builder()
 				.id( 2L )
@@ -84,15 +94,20 @@ class PgTasksUnitTest {
 				.username(username)
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_BY_USERNAME, view, username)).thenReturn(tasks);
-
 		assertEquals(tasks, pgTasks.byUsername(username));
 		verify(jdbc).query(PgTasks.FIND_BY_USERNAME, view, username);
 	}
@@ -106,9 +121,14 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		Task task2 = PgTask.builder()
 				.id( 2L )
@@ -117,16 +137,21 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
 		String email = "testEmail";
 		when( jdbc.query(PgTasks.FIND_BY_EMAIL, view, email)).thenReturn(tasks);
-
 		assertEquals(tasks, pgTasks.byEmail(email));
 		verify(jdbc).query(PgTasks.FIND_BY_EMAIL, view, email);
 	}
@@ -142,9 +167,15 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		Task task2 = PgTask.builder()
 				.id( 2L )
@@ -153,15 +184,20 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_WITH_PRIORITY, view, priority)).thenReturn(tasks);
-
 		assertEquals(tasks, pgTasks.withPriority(priority));
 		verify(jdbc).query(PgTasks.FIND_WITH_PRIORITY, view, priority);
 	}
@@ -177,9 +213,15 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		Task task2 = PgTask.builder()
 				.id( 2L )
@@ -188,15 +230,20 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple(value, priority) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_WITH_STATUS, view, value)).thenReturn(tasks);
-
 		assertEquals(tasks, pgTasks.withStatus(value));
 		verify(jdbc).query(PgTasks.FIND_WITH_STATUS, view, value);
 	}
@@ -210,9 +257,15 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple("HIGH", 1) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(6000), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(6000),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		Task task2 = PgTask.builder()
 				.id( 2L )
@@ -221,15 +274,20 @@ class PgTasksUnitTest {
 				.username("test-username")
 				.status(new Status.Simple("MEDIUM", 2) )
 				.time(new TimeEstimate.InMinutes(
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(Instant.ofEpochSecond(7200), ZoneOffset.systemDefault()) )
-				)
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						),
+						LocalDateTime.ofInstant(
+								Instant.ofEpochSecond(7200),
+								ZoneOffset.systemDefault()
+						)
+				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
 		tasks.add(task1);
 		tasks.add(task2);
 		when( jdbc.query(PgTasks.FIND_ALL, view)).thenReturn(tasks);
-
 		assertEquals(tasks, pgTasks.all());
 		verify(jdbc).query(PgTasks.FIND_ALL, view);
 	}
