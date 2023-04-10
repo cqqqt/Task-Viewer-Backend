@@ -4,6 +4,8 @@ public interface Task {
 
   Long id();
 
+  String username();
+
   String title();
 
   String about();

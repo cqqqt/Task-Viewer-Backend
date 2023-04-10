@@ -14,4 +14,8 @@ public interface Tasks {
 
   Iterable<Task> all();
 
+  void add(Task task);
+
+  void update(Task task);
+
 }

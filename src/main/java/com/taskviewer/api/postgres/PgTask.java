@@ -9,6 +9,7 @@ import lombok.Builder;
 public class PgTask implements Task {
 
 	private Long id;
+	private String username;
 	private String title;
 	private String about;
 	private Status status;
@@ -17,6 +18,11 @@ public class PgTask implements Task {
 	@Override
 	public Long id() {
 		return this.id;
+	}
+
+	@Override
+	public String username() {
+		return this.username;
 	}
 
 	@Override

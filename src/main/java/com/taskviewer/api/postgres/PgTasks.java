@@ -4,6 +4,7 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,10 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
-		FROM task t
+			   t.tracked AS tracked,
+			   
+			   l.username as username
+		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.id = ?""";
 	protected static final String FIND_BY_USERNAME = """
 		SELECT t.id AS task_id,
@@ -31,7 +34,9 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
+			   t.tracked AS tracked,
+			   
+			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE l.username = ?""";
 	protected static final String FIND_BY_EMAIL = """
@@ -41,7 +46,9 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
+			   t.tracked AS tracked,
+			   
+			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE l.email = ?""";
 	protected static final String FIND_WITH_PRIORITY = """
@@ -51,8 +58,10 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
-		FROM task t
+			   t.tracked AS tracked,
+			   
+			   l.username as username
+		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.priority = ?""";
 	protected static final String FIND_WITH_STATUS = """
 		SELECT t.id AS task_id,
@@ -61,8 +70,10 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
-		FROM task t
+			   t.tracked AS tracked,
+			   
+			   l.username as username
+		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.status = ?""";
 	protected static final String FIND_ALL = """
 		SELECT t.id AS task_id,
@@ -71,8 +82,22 @@ public class PgTasks implements Tasks {
 			   t.status AS status,
 			   t.priority AS priority,
 			   t.estimate AS estimate,
-			   t.tracked AS tracked
-		FROM task t""";
+			   t.tracked AS tracked,
+			   
+			   l.username as username
+		FROM task t INNER JOIN login l on l.id = t.assigne""";
+	protected static final String CREATE = """
+        INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
+        VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
+	protected static final String UPDATE = """
+        UPDATE task set title = ?,
+                        about = ?,
+                        assigne = (SELECT l.id FROM login l WHERE l.username = ?),
+                        status = ?,
+                        priority = ?,
+                        estimate = ?,
+                        tracked = ?
+        WHERE task.id = ?""";
 
 	@Override
 	public Task byId(Long id) {
@@ -107,6 +132,30 @@ public class PgTasks implements Tasks {
 	@Override
 	public Iterable<Task> all() {
 		return jdbc.query(FIND_ALL, view);
+	}
+
+	@Override
+	public void add(@NotNull Task task) {
+		jdbc.update(CREATE,
+				task.title(),
+				task.about(),
+				task.username(),
+				task.status().value(),
+				task.status().priority(),
+				task.time().estimate(),
+				task.time().tracked());
+	}
+
+	@Override
+	public void update(@NotNull Task task) {
+		jdbc.update(UPDATE,
+				task.title(),
+				task.about(),
+				task.username(),
+				task.status().value(),
+				task.status().priority(),
+				task.time().estimate(),
+				task.time().tracked());
 	}
 
 }

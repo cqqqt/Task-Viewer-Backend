@@ -2,11 +2,13 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.Users;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class PgUsers implements Users {
   private final JdbcTemplate jdbc;
 
   @Override
-  public void add(final User user) {
+  public void add(final @NotNull User user) {
     this.jdbc.update(
       """
         INSERT INTO login(
@@ -33,7 +35,7 @@ public class PgUsers implements Users {
   }
 
   @Override
-  public void update(final User user) {
+  public void update(final @NotNull User user) {
     this.jdbc.update(
       """
         UPDATE login 
