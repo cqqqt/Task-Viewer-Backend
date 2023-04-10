@@ -1,8 +1,10 @@
 package com.taskviewer.api.model;
 
+import java.util.Optional;
+
 public interface Tasks {
 
-  Task byId(Long id);
+  Optional<Task> byId(Long id);
 
   Iterable<Task> byUsername(String username);
 

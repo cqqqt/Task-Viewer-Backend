@@ -1,12 +1,13 @@
 package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Task;
-import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -100,13 +101,10 @@ public class PgTasks implements Tasks {
         WHERE task.id = ?""";
 
 	@Override
-	public Task byId(Long id) {
+	public Optional<Task> byId(Long id) {
 		return jdbc.query(FIND_BY_ID, view, id)
 				.stream()
-				.findFirst()
-				.orElseThrow(() ->
-						new TaskNotFoundException("Task with id %s not found".formatted(id))
-				);
+				.findFirst();
 	}
 
 	@Override
