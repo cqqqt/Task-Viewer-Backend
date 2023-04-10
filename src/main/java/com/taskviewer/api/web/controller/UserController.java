@@ -3,6 +3,7 @@ package com.taskviewer.api.web.controller;
 import com.taskviewer.api.postgres.PgUser;
 import com.taskviewer.api.service.UserSearchCriteria;
 import com.taskviewer.api.service.UserService;
+import com.taskviewer.api.web.rq.RqUser;
 import com.taskviewer.api.web.rq.RqUserUpdate;
 import com.taskviewer.api.web.rs.RsUser;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,20 @@ public class UserController {
           )
           .firstname(request.firstname())
           .lastname(request.lastname())
+          .build()
+      )
+    );
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @PostMapping("/admin/new")
+  public RsUser addAdmin(final RqUser request) {
+    return new RsUser(
+      this.users.with(
+        PgUser.builder()
+          .username(request.username())
+          .email(request.email())
+
           .build()
       )
     );
