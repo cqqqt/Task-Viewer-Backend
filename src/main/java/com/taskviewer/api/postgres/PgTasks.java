@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,15 +17,15 @@ public class PgTasks implements Tasks {
 	private final ViewTask view;
 
 	protected static final String FIND_BY_ID = """
-        SELECT t.id AS task_id,
-        		   t.title AS title,
-        		   t.about AS about,
-        		   t.status AS status,
-        		   t.priority AS priority,
-        		   t.estimate AS estimate,
-        		   t.tracked AS tracked,
-        		   
-        		   l.username as username
+		SELECT t.id AS task_id,
+			   t.title AS title,
+			   t.about AS about,
+			   t.status AS status,
+			   t.priority AS priority,
+			   t.estimate AS estimate,
+			   t.tracked AS tracked,
+			   
+			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.id = ?""";
 	protected static final String FIND_BY_USERNAME = """
@@ -109,27 +108,27 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
-	public List<Task> byUsername(String username) {
+	public Iterable<Task> byUsername(String username) {
 		return jdbc.query(FIND_BY_USERNAME, view, username);
 	}
 
 	@Override
-	public List<Task> byEmail(String email) {
+	public Iterable<Task> byEmail(String email) {
 		return jdbc.query(FIND_BY_EMAIL, view, email);
 	}
 
 	@Override
-	public List<Task> withPriority(int priority) {
+	public Iterable<Task> withPriority(int priority) {
 		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
 	}
 
 	@Override
-	public List<Task> withStatus(String status) {
+	public Iterable<Task> withStatus(String status) {
 		return jdbc.query(FIND_WITH_STATUS, view, status);
 	}
 
 	@Override
-	public List<Task> all() {
+	public Iterable<Task> all() {
 		return jdbc.query(FIND_ALL, view);
 	}
 
