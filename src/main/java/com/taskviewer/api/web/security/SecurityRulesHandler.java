@@ -1,10 +1,11 @@
-package com.taskviewer.api.web.security.jwt;
+package com.taskviewer.api.web.security;
 
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.service.CommentSearchCriteria;
 import com.taskviewer.api.service.CommentService;
 import com.taskviewer.api.service.UserService;
+import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component("securityRulesHandler")
 @RequiredArgsConstructor
-public class SecurityRulesHandler {
+public class SecurityRulesHandler implements SecurityRules {
 
   private final Tasks tasks;
   private final UserService users;
