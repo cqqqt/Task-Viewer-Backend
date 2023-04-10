@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public String password(User user) {
+  public String password(final User user) {
     return this.users.password(user.id())
       .orElseThrow(
         () ->
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean userExists(String email, String username) {
+  public boolean userExists(final String email, final String username) {
     return this.users.exists(email, username);
   }
 

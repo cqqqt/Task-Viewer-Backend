@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
   private final PasswordEncoder passwordEncoder;
 
   @Override
-  public JwtRs login(Authentication authentication) {
+  public JwtRs login(final Authentication authentication) {
     User user = userService.byUsername(authentication.getUsername());
     String password = userService.password(user);
     if (!passwordEncoder.matches(authentication.getPassword(), password)) {
@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public JwtRs refresh(JwtToken jwtToken) {
+  public JwtRs refresh(final JwtToken jwtToken) {
     Claims claims = jwtService.parse(jwtToken);
     JwtUserDetailsFactory userDetailsFactory = new JwtUserDetailsFactory(claims);
     UserDetails userDetails = userDetailsFactory.userDetails();
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public User register(RqUser user) {
+  public User register(final RqUser user) {
     if (userService.userExists(user.email(), user.username())) {
       throw new UserAlreadyExistsException("User with email %s or username %s already exists"
         .formatted(

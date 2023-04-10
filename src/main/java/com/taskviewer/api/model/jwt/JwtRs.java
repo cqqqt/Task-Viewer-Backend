@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JwtRs {
 
-  private JwtToken accessToken;
-  private JwtToken refreshToken;
+  private JwtToken access;
+  private JwtToken refresh;
 }

@@ -170,12 +170,12 @@ public class PgUsers implements Users {
           OR username = ?
           )
           """,
-        new BooleanRowMapper(),
+        new ExistsRowMapper(),
         email,
         username
       )
       .stream()
       .findFirst()
-      .get();
+      .orElse(false);
   }
 }
