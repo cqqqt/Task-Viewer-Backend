@@ -46,20 +46,6 @@ public class UserController {
     );
   }
 
-  @PreAuthorize("hasAuthority('ADMIN')")
-  @PostMapping("/admin/new")
-  public RsUser addAdmin(final RqUser request) {
-    return new RsUser(
-      this.users.with(
-        PgUser.builder()
-          .username(request.username())
-          .email(request.email())
-
-          .build()
-      )
-    );
-  }
-
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping("/@{username}")
   public RsUser byUsername(@PathVariable final String username) {
