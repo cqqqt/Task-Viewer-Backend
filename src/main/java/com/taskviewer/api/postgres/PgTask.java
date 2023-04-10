@@ -5,6 +5,8 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TimeEstimate;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Builder
 public class PgTask implements Task {
 
@@ -43,6 +45,11 @@ public class PgTask implements Task {
 	@Override
 	public TimeEstimate time() {
 		return this.time;
+	}
+
+	@Override
+	public LocalDateTime created() {
+		return null;
 	}
 
 }
