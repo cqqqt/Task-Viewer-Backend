@@ -5,6 +5,7 @@ import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.web.rs.RsError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,7 +28,7 @@ public class RestExceptions {
     final String message = ex.getMessage();
     log.debug(message);
     return new RsError.WithCode(
-      400,
+      401,
       message
     );
   }
@@ -38,6 +39,16 @@ public class RestExceptions {
     log.debug(message);
     return new RsError.WithCode(
       409,
+      message
+    );
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public RsError accessDeniedException(final AccessDeniedException ex) {
+    final String message = ex.getMessage();
+    log.debug(message);
+    return new RsError.WithCode(
+      403,
       message
     );
   }
