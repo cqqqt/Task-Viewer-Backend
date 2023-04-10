@@ -4,6 +4,8 @@ public interface Task {
 
   Long id();
 
+  String username();
+
   String title();
 
   String about();
@@ -12,5 +14,4 @@ public interface Task {
 
   TimeEstimate time();
 
-  Long user();
 }
