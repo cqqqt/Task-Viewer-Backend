@@ -1,16 +1,26 @@
 package com.taskviewer.api.model;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface Tasks {
 
-  Task task(Long id);
+  Optional<Task> byId(Long id);
 
-  Iterable<Task> iterate(String username);
+  List<Task> byUsername(String username);
 
-  Iterable<Task> byEmail(String email);
+  List<Task> byEmail(String email);
 
-  Iterable<Task> iterate(int priority);
+  List<Task> withPriority(int priority);
 
-  Iterable<Task> with(String status);
+  List<Task> withStatus(String status);
 
-  Iterable<Task> iterate();
+  List<Task> all();
+
+  void add(Task task);
+
+  void update(Task task);
+
+  void assign(Long id, Long user);
+
 }

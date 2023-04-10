@@ -4,36 +4,55 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.Tasks;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Component
 public class PgTasks implements Tasks {
 
     @Override
-    public Task task(Long id) {
+    public Optional<Task> byId(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Task> byUsername(String username) {
         return null;
     }
 
     @Override
-    public Iterable<Task> iterate(String username) {
+    public List<Task> byEmail(String email) {
         return null;
     }
 
     @Override
-    public Iterable<Task> byEmail(String email) {
+    public List<Task> withPriority(int priority) {
         return null;
     }
 
     @Override
-    public Iterable<Task> iterate(int priority) {
+    public List<Task> withStatus(String status) {
         return null;
     }
 
     @Override
-    public Iterable<Task> with(String status) {
+    public List<Task> all() {
         return null;
     }
 
     @Override
-    public Iterable<Task> iterate() {
-        return null;
+    public void add(Task task) {
+
     }
+
+    @Override
+    public void update(Task task) {
+
+    }
+
+    @Override
+    public void assign(Long id, Long user) {
+
+    }
+
 }

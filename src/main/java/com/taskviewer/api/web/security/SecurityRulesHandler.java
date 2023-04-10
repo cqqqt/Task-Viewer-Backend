@@ -4,6 +4,7 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.service.CommentSearchCriteria;
 import com.taskviewer.api.service.CommentService;
+import com.taskviewer.api.service.TaskService;
 import com.taskviewer.api.service.UserService;
 import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SecurityRulesHandler implements SecurityRules {
 
-  private final Tasks tasks;
+  private final TaskService service;
   private final UserService users;
   private final CommentService comments;
 
@@ -30,7 +31,7 @@ public class SecurityRulesHandler implements SecurityRules {
   public boolean canAccessTask(final Long taskId) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    Task task = tasks.task(taskId);
+    Task task = service.byId(taskId);
     return task.username().equals(userDetails.getUsername()) || hasAuthority("ADMIN");
   }
 
