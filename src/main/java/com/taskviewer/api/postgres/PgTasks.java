@@ -99,6 +99,9 @@ public class PgTasks implements Tasks {
                         estimate = ?,
                         tracked = ?
         WHERE task.id = ?""";
+	protected static final String ASSIGN = """
+			UPDATE task assigne = (SELECT l.id FROM login l WHERE l.username = ?)
+			WHERE task.id = ?""";
 
 	@Override
 	public Optional<Task> byId(Long id) {
@@ -154,6 +157,11 @@ public class PgTasks implements Tasks {
 				task.status().priority(),
 				task.time().estimate(),
 				task.time().tracked());
+	}
+
+	@Override
+	public void assign(Long id, Long user) {
+		jdbc.update(ASSIGN, user, id);
 	}
 
 }
