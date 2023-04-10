@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImpl implements TaskService21 {
+public class TaskServiceImpl implements TaskService {
 
 	private final Tasks tasks;
 

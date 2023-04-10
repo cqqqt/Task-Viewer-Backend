@@ -4,7 +4,7 @@ import com.taskviewer.api.model.Task;
 
 import java.util.List;
 
-public interface TaskService21 {
+public interface TaskService {
 
 	Task byId(Long id);
 
