@@ -1,6 +1,3 @@
-drop table if exists login cascade;
-drop table if exists task cascade;
-
 create table if not exists login(
     id bigserial primary key ,
     username character varying(32) unique not null,

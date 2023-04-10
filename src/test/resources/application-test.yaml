@@ -1,8 +1,6 @@
 spring:
   datasource:
-    url: ${TEST_URL}
-    username: ${TEST_USERNAME}
-    password: ${TEST_PASSWORD}
+    url: jdbc:tc:postgresql:15.2:///integration-tests-db
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   test:
     database:
