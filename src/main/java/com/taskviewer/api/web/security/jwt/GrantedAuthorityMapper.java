@@ -11,8 +11,12 @@ public class GrantedAuthorityMapper {
 
   public static List<GrantedAuthority> mapToGrantedAuthority(List<String> userRoles) {
     return userRoles.stream()
-            .filter(Objects::nonNull)
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+      .filter(Objects::nonNull)
+      .map(authority ->
+        new SimpleGrantedAuthority(
+          authority.substring(5)
+        )
+      )
+      .collect(Collectors.toList());
   }
 }
