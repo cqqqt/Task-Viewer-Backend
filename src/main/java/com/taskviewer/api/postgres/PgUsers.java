@@ -144,4 +144,39 @@ public class PgUsers implements Users {
       new SafeUser()
     );
   }
+
+  @Override
+  public Optional<String> password(Long id) {
+    return this.jdbc.query(
+        """
+          SELECT l.password AS password
+          FROM login l
+          WHERE l.id = ?
+          """,
+        new PasswordRowMapper(),
+        id
+      )
+      .stream()
+      .findFirst();
+  }
+
+  @Override
+  public boolean exists(String email, String username) {
+    return this.jdbc.query(
+        """
+          SELECT EXISTS(
+          SELECT 1
+          FROM login
+          WHERE email = ?
+          OR username = ?
+          )
+          """,
+        new ExistsRowMapper(),
+        email,
+        username
+      )
+      .stream()
+      .findFirst()
+      .orElse(false);
+  }
 }

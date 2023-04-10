@@ -1,5 +1,7 @@
 package com.taskviewer.api.model;
 
+import java.time.LocalDateTime;
+
 public interface Task {
 
   Long id();
@@ -14,4 +16,5 @@ public interface Task {
 
   TimeEstimate time();
 
+  LocalDateTime created();
 }

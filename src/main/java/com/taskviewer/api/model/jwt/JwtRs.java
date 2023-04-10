@@ -2,18 +2,13 @@ package com.taskviewer.api.model.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class JwtToken {
+public class JwtRs {
 
-  private String token;
-
-  public enum TokenType {
-    ACCESS, REFRESH
-  }
+  private JwtToken access;
+  private JwtToken refresh;
 }
