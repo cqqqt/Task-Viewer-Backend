@@ -22,4 +22,6 @@ public interface TaskService {
 
 	Task update(Task task);
 
+	Task assign(Long id, Long user);
+
 }

@@ -66,4 +66,10 @@ public class TaskServiceImpl implements TaskService {
 		return this.byId( task.id() );
 	}
 
+	@Override
+	public Task assign(Long id, Long user) {
+		this.tasks.assign(id, user);
+		return this.byId(id);
+	}
+
 }

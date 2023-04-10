@@ -21,4 +21,6 @@ public interface Tasks {
 
   void update(Task task);
 
+	void assign(Long id, Long user);
+
 }
