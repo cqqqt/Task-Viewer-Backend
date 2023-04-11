@@ -2,6 +2,7 @@ package com.taskviewer.api.service.impl;
 
 import com.taskviewer.api.model.Authentication;
 import com.taskviewer.api.model.AuthenticationException;
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.jwt.JwtRs;
@@ -66,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     PgUser userToAdd = PgUser.builder()
       .username(user.username())
       .email(user.email())
-      .role("ROLE_USER")
+      .role(Role.USER)
       .firstname(user.firstname())
       .lastname(user.lastname())
       .created(LocalDateTime.now())

@@ -1,5 +1,6 @@
 package com.taskviewer.api.postgres;
 
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class SafeUser implements RowMapper<User> {
       .email(rs.getString("email"))
       .firstname(rs.getString("firstname"))
       .lastname(rs.getString("lastname"))
-      .role(rs.getString("role"))
+      .role(Role.valueOf(rs.getString("role")))
       .build();
   }
 }

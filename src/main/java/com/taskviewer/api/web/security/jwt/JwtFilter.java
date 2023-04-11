@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,23 +27,26 @@ public class JwtFilter extends GenericFilterBean {
     private final JwtService jwtService;
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain filterChain) throws ServletException, IOException {
         try {
-            JwtToken token = getTokenFromRequest((HttpServletRequest) req);
+            JwtToken token = getTokenFromRequest((HttpServletRequest) request);
             if (token != null) {
                 if (!jwtService.isTokenType(token, JwtToken.TokenType.ACCESS)) {
-                    throw new JwtException("invalid token");
+                    throw new JwtException("Invalid token");
                 }
                 if (jwtService.isTokenExpired(token)) {
-                    throw new JwtException("token expired");
+                    throw new JwtException("Token expired");
                 }
                 Authentication auth = jwtService.getAuthentication(token);
                 if (auth != null) {
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
-            filterChain.doFilter(req, res);
-        } catch (JwtException ignored) {
+            filterChain.doFilter(request, response);
+        } catch (JwtException e) {
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
         }
     }
 
