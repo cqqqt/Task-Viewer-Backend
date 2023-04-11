@@ -67,6 +67,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	@Transactional
 	public Task assign(Long id, Long user) {
 		this.tasks.assign(id, user);
 		return this.byId(id);
