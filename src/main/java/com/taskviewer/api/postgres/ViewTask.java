@@ -28,6 +28,7 @@ public class ViewTask implements RowMapper<Task> {
 						rs.getTimestamp("estimate").toLocalDateTime(),
 						rs.getTimestamp("tracked").toLocalDateTime() )
 				)
+				.created( rs.getTimestamp("task_created").toLocalDateTime() )
 				.build();
 	}
 
