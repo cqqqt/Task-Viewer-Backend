@@ -1,5 +1,7 @@
 package com.taskviewer.api.web.controller;
 
+import com.taskviewer.api.model.Role;
+import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.postgres.PgUser;
 import com.taskviewer.api.service.UserSearchCriteria;
 import com.taskviewer.api.service.UserService;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +28,33 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserService users;
+  private final PasswordEncoder encoder;
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @PostMapping("/admin")
+  public RsUser addAdmin(@RequestBody final RqUser request) {
+    if (this.users.userExists(request.email(), request.username())) {
+      throw new UserAlreadyExistsException(
+        "User with email %s or username %s already exists"
+          .formatted(
+            request.email(),
+            request.username()
+          )
+      );
+    }
+    return new RsUser(
+      this.users.with(
+        PgUser.builder()
+          .username(request.username())
+          .email(request.email())
+          .role(Role.ADMIN)
+          .password(this.encoder.encode(request.password()))
+          .firstname(request.firstname())
+          .lastname(request.lastname())
+          .build()
+      )
+    );
+  }
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @PutMapping
