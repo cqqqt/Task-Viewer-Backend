@@ -8,13 +8,11 @@ import com.taskviewer.api.service.UserService;
 import com.taskviewer.api.web.rs.RsTask;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,13 +25,13 @@ public class TaskController {
   private final MailService mails;
 
   @PreAuthorize("hasAuthority('ADMIN')")
-  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("assign/{id}/{username}")
   public RsTask assign(@PathVariable final Long id,
                        @PathVariable final String username) {
     final User user = this.users.byUsername(username);
     final Task assigned = this.tasks.assign(id, user.id());
-    this.mails.send(user,
+    this.mails.send(
+      user,
       "Task assigned to you",
       "Task %s was assigned to you"
         .formatted(
