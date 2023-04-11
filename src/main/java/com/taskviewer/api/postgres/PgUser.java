@@ -1,5 +1,6 @@
 package com.taskviewer.api.postgres;
 
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ public class PgUser implements User {
   private Long id;
   private String username;
   private String email;
-  private String role;
+  private Role role;
   private String firstname;
   private String lastname;
   private String password;
@@ -31,7 +32,7 @@ public class PgUser implements User {
   }
 
   @Override
-  public String role() {
+  public Role role() {
     return this.role;
   }
 

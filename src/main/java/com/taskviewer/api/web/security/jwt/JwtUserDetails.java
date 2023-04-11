@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Getter
 @Setter
@@ -20,13 +19,15 @@ public class JwtUserDetails implements UserDetails {
 
   private User user;
   private boolean enabled;
-  private Collection<? extends GrantedAuthority> authorities;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.singletonList(user.role());
+  }
 
   public JwtUserDetails(User user) {
-    List<String> roles = Collections.singletonList(user.role());
     this.user = user;
     this.enabled = true;
-    this.authorities = GrantedAuthorityMapper.mapToGrantedAuthority(roles);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.taskviewer.api.web.security.jwt;
 
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
 import com.taskviewer.api.postgres.PgUser;
 import io.jsonwebtoken.Claims;
@@ -18,7 +19,7 @@ public class JwtUserDetailsFactory {
     User user = PgUser.builder()
             .id(claims.get("id", Long.class))
             .username(claims.getSubject())
-            .role(role)
+            .role(Role.valueOf(role))
             .build();
     this.user = user;
   }

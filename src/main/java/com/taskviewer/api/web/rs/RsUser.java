@@ -1,5 +1,6 @@
 package com.taskviewer.api.web.rs;
 
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ public class RsUser {
   private Long id;
   private String username;
   private String email;
-  private String role;
+  private Role role;
   private String firstname;
   private String lastname;
 
@@ -28,7 +29,7 @@ public class RsUser {
     final Long id,
     final String usr,
     final String eml,
-    final String rl,
+    final Role rl,
     final String first,
     final String last) {
     this.id = id;

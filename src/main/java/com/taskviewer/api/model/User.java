@@ -6,7 +6,7 @@ public interface User {
 
   String username();
 
-  String role();
+  Role role();
 
   String email();
 
