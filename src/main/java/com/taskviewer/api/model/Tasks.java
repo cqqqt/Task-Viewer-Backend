@@ -11,6 +11,8 @@ public interface Tasks {
 
   List<Task> byEmail(String email);
 
+  List<Task> byCriteria(String sql);
+
   List<Task> withPriority(int priority);
 
   List<Task> withStatus(String status);

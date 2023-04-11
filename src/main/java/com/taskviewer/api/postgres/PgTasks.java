@@ -128,6 +128,11 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
+	public List<Task> byCriteria(String sql) {
+		return jdbc.query(sql, view);
+	}
+
+	@Override
 	public List<Task> withPriority(int priority) {
 		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
 	}
