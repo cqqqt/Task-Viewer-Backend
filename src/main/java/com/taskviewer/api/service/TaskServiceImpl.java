@@ -3,6 +3,7 @@ package com.taskviewer.api.service;
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
+import com.taskviewer.api.web.rq.TaskSearchCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,16 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(readOnly = true)
 	public List<Task> byEmail(String email) {
 		return tasks.byEmail(email);
+	}
+
+	@Override
+	public List<Task> byCriteria(@NotNull TaskSearchCriteria criteria) {
+		String sql = TaskSearchCriteria.taskSearchSqlBuilder()
+			.withUsername( criteria.username() )
+			.withStatus( criteria.status() )
+			.withPriority( criteria.priority() )
+			.build();
+		return this.tasks.byCriteria(sql);
 	}
 
 	@Override
@@ -67,6 +78,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	@Transactional
 	public Task assign(Long id, Long user) {
 		this.tasks.assign(id, user);
 		return this.byId(id);
