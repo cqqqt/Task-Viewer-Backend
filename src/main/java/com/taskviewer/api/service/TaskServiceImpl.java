@@ -3,7 +3,7 @@ package com.taskviewer.api.service;
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
-import com.taskviewer.api.web.rq.TaskSearchCriteria;
+import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> byCriteria(@NotNull TaskSearchCriteria criteria) {
-		String sql = TaskSearchCriteria.taskSearchSqlBuilder()
+	public List<Task> byCriteria(@NotNull RqTaskSearchCriteria criteria) {
+		String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
 			.withUsername( criteria.username() )
 			.withStatus( criteria.status() )
 			.withPriority( criteria.priority() )

@@ -1,7 +1,7 @@
 package com.taskviewer.api.service;
 
 import com.taskviewer.api.model.Task;
-import com.taskviewer.api.web.rq.TaskSearchCriteria;
+import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface TaskService {
 
 	List<Task> byEmail(String email);
 
-	List<Task> byCriteria(TaskSearchCriteria criteria);
+	List<Task> byCriteria(RqTaskSearchCriteria criteria);
 
 	List<Task> withPriority(int priority);
 

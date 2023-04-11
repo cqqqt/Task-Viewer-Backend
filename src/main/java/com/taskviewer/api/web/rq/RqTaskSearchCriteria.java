@@ -3,7 +3,7 @@ package com.taskviewer.api.web.rq;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public record TaskSearchCriteria(String username, String status, Integer priority) {
+public record RqTaskSearchCriteria(String username, String status, Integer priority) {
 
 	@Contract(value = " -> new", pure = true)
 	public static @NotNull TaskSearchSqlBuilder taskSearchSqlBuilder() {
