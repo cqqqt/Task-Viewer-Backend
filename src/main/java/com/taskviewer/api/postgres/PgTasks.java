@@ -25,10 +25,11 @@ public class PgTasks implements Tasks {
         		   t.priority AS priority,
         		   t.estimate AS estimate,
         		   t.tracked AS tracked,
+        		   t.created as task_created,
         		   
         		   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne
-		WHERE t.id = ?""";
+   			FROM task t INNER JOIN login l on l.id = t.assigne
+  			WHERE t.id = ?""";
 	protected static final String FIND_BY_USERNAME = """
 		SELECT t.id AS task_id,
 			   t.title AS title,
@@ -37,6 +38,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
+			   t.created as task_created,
 			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
@@ -49,6 +51,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
+			   t.created as task_created,
 			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
@@ -61,6 +64,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
+			   t.created as task_created,
 			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
@@ -73,6 +77,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
+			   t.created as task_created,
 			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
@@ -85,6 +90,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
+			   t.created as task_created,
 			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne""";
@@ -101,7 +107,7 @@ public class PgTasks implements Tasks {
                         tracked = ?
         WHERE task.id = ?""";
 	protected static final String ASSIGN = """
-			UPDATE task assigne = (SELECT l.id FROM login l WHERE l.username = ?)
+			UPDATE task SET assigne = (SELECT l.id FROM login l WHERE l.username = ?)
 			WHERE task.id = ?""";
 
 	@Override

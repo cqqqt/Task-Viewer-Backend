@@ -16,6 +16,7 @@ public class PgTask implements Task {
 	private String about;
 	private Status status;
 	private TimeEstimate time;
+	private LocalDateTime created;
 
 	@Override
 	public Long id() {
@@ -49,7 +50,7 @@ public class PgTask implements Task {
 
 	@Override
 	public LocalDateTime created() {
-		return null;
+		return this.created;
 	}
 
 }
