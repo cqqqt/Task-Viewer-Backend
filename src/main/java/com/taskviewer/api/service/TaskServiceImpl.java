@@ -36,6 +36,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	@Transactional
 	public List<Task> byCriteria(@NotNull RqTaskSearchCriteria criteria) {
 		String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
 			.withUsername( criteria.username() )
