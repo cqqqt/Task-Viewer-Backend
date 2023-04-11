@@ -101,7 +101,7 @@ public class PgTasks implements Tasks {
                         tracked = ?
         WHERE task.id = ?""";
 	protected static final String ASSIGN = """
-			UPDATE task assigne = (SELECT l.id FROM login l WHERE l.username = ?)
+			UPDATE task SET assigne = (SELECT l.id FROM login l WHERE l.username = ?)
 			WHERE task.id = ?""";
 
 	@Override
