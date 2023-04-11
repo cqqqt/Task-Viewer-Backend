@@ -92,14 +92,14 @@ public class PgTasks implements Tasks {
         INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
         VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
 	protected static final String UPDATE = """
-        UPDATE task set title = ?,
-                        about = ?,
-                        assigne = (SELECT l.id FROM login l WHERE l.username = ?),
-                        status = ?,
-                        priority = ?,
-                        estimate = ?,
-                        tracked = ?
-        WHERE task.id = ?""";
+      UPDATE task set title = ?,
+      							  about = ?,
+      							  assigne = (SELECT l.id FROM login l WHERE l.username = ?),
+      							  status = ?,
+      							  priority = ?,
+      							  estimate = ?,
+      							  tracked = ?
+      WHERE task.id = ?""";
 	protected static final String ASSIGN = """
 			UPDATE task SET assigne = ?
 			WHERE task.id = ?""";
