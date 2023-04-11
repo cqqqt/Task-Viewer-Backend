@@ -6,10 +6,15 @@ import com.taskviewer.api.service.MailService;
 import com.taskviewer.api.service.TaskService;
 import com.taskviewer.api.service.UserService;
 import com.taskviewer.api.web.rs.RsTask;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,6 +26,8 @@ public class TaskController {
   private final UserService users;
   private final MailService mails;
 
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("assign/{id}/{username}")
   public RsTask assign(@PathVariable final Long id,
                        @PathVariable final String username) {
@@ -35,4 +42,14 @@ public class TaskController {
     );
     return new RsTask(assigned);
   }
+
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+  @GetMapping("/@{username}")
+  public List<RsTask> assigned(@PathVariable final String username) {
+    return this.tasks.byUsername(username)
+      .stream()
+      .map(RsTask::new)
+      .toList();
+  }
+
 }
