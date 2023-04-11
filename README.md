@@ -17,6 +17,29 @@ Run this script to start containers:
 $ sh up.sh
 ```
 
+Then, go to POST `${host}:8080/api/v1/auth/login` With the next body:
+```json
+{
+  "username": "admin",
+  "password": "root"
+}
+```
+You will receive Access and Refresh tokens. You will need them using the Task-Viewer API.
+Access Token expires in 20 minutes, while Refresh one - 24 hours.
+
+# Security
+
+Task-Viewer is a secured API. We are using [```JWT```](https://www.wikiwand.com/en/JSON_Web_Token) Bearer formatted token
+to authenticate and authorize users.
+So, each request to the secured resources should go with the ```Autorization``` header.
+e.g.:
+
+```
+-X Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlkIjo4LCJ0eXBlIjoiQUNDRVNTIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODEyMjI2MTR9.tueREEm0kdJM6nEBemM5PCT-5bT02SMkRNfmK0t9CE7CSM9kyRhVdz2VwFZhECuq6GvIinFBaZP11814k7od3Q
+```
+
+Also, we have 2 types of authority: ```USER```, and the ```ADMIN```
+
 ## How to Contribute
 
 Fork repository, make changes, send us a [pull request](https://www.yegor256.com/2014/04/15/github-guidelines.html).
