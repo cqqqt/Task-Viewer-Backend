@@ -29,7 +29,7 @@ public class PgUsers implements Users {
       user.firstname(),
       user.lastname(),
       user.password(),
-      user.role(),
+      user.role().name(),
       user.email()
     );
   }
