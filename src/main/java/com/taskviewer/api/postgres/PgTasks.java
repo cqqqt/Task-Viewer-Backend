@@ -18,18 +18,17 @@ public class PgTasks implements Tasks {
 	private final ViewTask view;
 
 	protected static final String FIND_BY_ID = """
-        SELECT t.id AS task_id,
+     SELECT t.id AS task_id,
         		   t.title AS title,
         		   t.about AS about,
         		   t.status AS status,
         		   t.priority AS priority,
         		   t.estimate AS estimate,
         		   t.tracked AS tracked,
-        		   t.created as task_created,
-        		   
+        		   t.created as task_created,   
         		   l.username as username
-   			FROM task t INNER JOIN login l on l.id = t.assigne
-  			WHERE t.id = ?""";
+     FROM task t INNER JOIN login l on l.id = t.assigne
+     WHERE t.id = ?""";
 	protected static final String FIND_BY_USERNAME = """
 		SELECT t.id AS task_id,
 			   t.title AS title,
@@ -39,7 +38,6 @@ public class PgTasks implements Tasks {
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
 			   t.created as task_created,
-			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE l.username = ?""";
@@ -52,7 +50,6 @@ public class PgTasks implements Tasks {
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
 			   t.created as task_created,
-			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE l.email = ?""";
@@ -65,7 +62,6 @@ public class PgTasks implements Tasks {
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
 			   t.created as task_created,
-			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.priority = ?""";
@@ -77,8 +73,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
-			   t.created as task_created,
-			   
+			   t.created as task_created,	   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.status = ?""";
@@ -91,7 +86,6 @@ public class PgTasks implements Tasks {
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
 			   t.created as task_created,
-			   
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne""";
 	protected static final String CREATE = """
