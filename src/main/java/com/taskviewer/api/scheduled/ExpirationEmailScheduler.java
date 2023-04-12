@@ -1,44 +1,49 @@
 package com.taskviewer.api.scheduled;
 
 import com.taskviewer.api.model.Task;
-import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.service.MailService;
+import com.taskviewer.api.service.TaskService;
 import com.taskviewer.api.service.UserService;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class ExpirationEmailScheduler implements Scheduler {
 
-    private final MailService mailService;
-    private final UserService userService;
-    private final Tasks tasks; //todo TaskService
+  private final MailService mails;
+  private final UserService users;
+  private final TaskService tasks;
 
-    @Override
-    @Scheduled(fixedDelay = 1800000)
-    public void schedule() {
-        List<Task> list = new ArrayList<>(); //todo this.taskService.iterate()
-        list.forEach(task -> {
-            long full = Duration.between(
-                            task.time().tracked(), task.time().estimate())
-                    .getSeconds();
-            long left = Duration.between(
-                            LocalDateTime.now(), task.time().estimate())
-                    .getSeconds();
-            if (left <= 0.2 * full) {
-                this.mailService.send(
-                        this.userService.byUsername(task.username()),
-                        "Expiration email",
-                        "Your task '" + task.title() + "' will be expired soon.");
-            }
-        });
-    }
-
+  @Override
+  @Scheduled(fixedDelay = 1800000L)
+  public void schedule() {
+    final List<Task> all = this.tasks.openAndAssigned();
+    all.forEach(task -> {
+      final long full = Duration.between(
+        task.time().tracked(), task.time().estimate()
+      ).getSeconds();
+      final LocalDateTime now = LocalDateTime.now();
+      final long left = Duration.between(
+        now, task.time().estimate()
+      ).getSeconds();
+      if (left <= 0.2 * full && !now.isAfter(task.time().estimate())) {
+        this.mails.send(
+          this.users.byUsername(task.username()),
+          "Task %s will be expired soon"
+            .formatted(
+              task.title()
+            ),
+          "Your task %s will be expired soon."
+            .formatted(
+              task.title()
+            )
+        );
+      }
+    });
+  }
 }
