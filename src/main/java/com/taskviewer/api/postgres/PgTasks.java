@@ -25,7 +25,7 @@ public class PgTasks implements Tasks {
         		   t.priority AS priority,
         		   t.estimate AS estimate,
         		   t.tracked AS tracked,
-        		   t.created as task_created,   
+        		   t.created as task_created,
         		   l.username as username
      FROM task t INNER JOIN login l on l.id = t.assigne
      WHERE t.id = ?""";
@@ -73,7 +73,7 @@ public class PgTasks implements Tasks {
 			   t.priority AS priority,
 			   t.estimate AS estimate,
 			   t.tracked AS tracked,
-			   t.created as task_created,	   
+			   t.created as task_created,
 			   l.username as username
 		FROM task t INNER JOIN login l on l.id = t.assigne
 		WHERE t.status = ?""";
@@ -91,15 +91,6 @@ public class PgTasks implements Tasks {
 	protected static final String CREATE = """
         INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
         VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
-	protected static final String UPDATE = """
-      UPDATE task set title = ?,
-      							  about = ?,
-      							  assigne = (SELECT l.id FROM login l WHERE l.username = ?),
-      							  status = ?,
-      							  priority = ?,
-      							  estimate = ?,
-      							  tracked = ?
-      WHERE task.id = ?""";
 	protected static final String ASSIGN = """
 			UPDATE task SET assigne = ?
 			WHERE task.id = ?""";
@@ -154,15 +145,8 @@ public class PgTasks implements Tasks {
 	}
 
 	@Override
-	public void update(@NotNull Task task) {
-		jdbc.update(UPDATE,
-				task.title(),
-				task.about(),
-				task.username(),
-				task.status().value(),
-				task.status().priority(),
-				task.time().estimate(),
-				task.time().tracked());
+	public void update(String sql) {
+		jdbc.update(sql);
 	}
 
 	@Override

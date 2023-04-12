@@ -4,6 +4,7 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
+import com.taskviewer.api.web.rq.RqTaskUpdate;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -73,9 +74,18 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional
-	public Task update(@NotNull Task task) {
-		this.tasks.update(task);
-		return this.byId( task.id() );
+	public Task update(Long id, @NotNull RqTaskUpdate request) {
+		String sql = RqTaskUpdate.taskUpdateSqlBuilder()
+			.withTitle( request.title() )
+			.withAbout( request.about() )
+			.withAssigne( request.username() )
+			.withStatus( request.status() )
+			.withPriority( request.priority() )
+			.withEstimate( request.estimate() )
+			.withTracked( request.tracked() )
+			.build(id);
+		this.tasks.update(sql);
+		return this.byId(id);
 	}
 
 	@Override
