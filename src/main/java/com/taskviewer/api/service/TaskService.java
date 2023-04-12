@@ -19,6 +19,8 @@ public interface TaskService {
 
 	List<Task> withStatus(String status);
 
+	List<Task> openAndAssigned();
+
 	List<Task> all();
 
 	Task add(Task task);
