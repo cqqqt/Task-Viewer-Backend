@@ -48,6 +48,12 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<Task> openAndAssigned() {
+		return this.tasks.openAndAssigned();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<Task> all() {
 		return tasks.all();
 	}
