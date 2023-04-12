@@ -2,10 +2,11 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class SafeUser implements RowMapper<User> {

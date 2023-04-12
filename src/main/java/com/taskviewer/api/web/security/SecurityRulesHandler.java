@@ -1,7 +1,6 @@
 package com.taskviewer.api.web.security;
 
 import com.taskviewer.api.model.Task;
-import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.service.CommentSearchCriteria;
 import com.taskviewer.api.service.CommentService;
 import com.taskviewer.api.service.TaskService;

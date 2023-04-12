@@ -1,10 +1,11 @@
 package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Comment;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class ViewComment implements RowMapper<Comment> {

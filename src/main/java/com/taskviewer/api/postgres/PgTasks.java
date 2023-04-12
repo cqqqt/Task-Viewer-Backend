@@ -2,12 +2,13 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.Tasks;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
