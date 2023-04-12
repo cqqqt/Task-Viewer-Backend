@@ -39,9 +39,11 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	public List<Task> byCriteria(@NotNull RqTaskSearchCriteria criteria) {
 		String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
+			.withTitle( criteria.title() )
 			.withUsername( criteria.username() )
 			.withStatus( criteria.status() )
 			.withPriority( criteria.priority() )
+			.withEstimate( criteria.estimate() )
 			.build();
 		return this.tasks.byCriteria(sql);
 	}

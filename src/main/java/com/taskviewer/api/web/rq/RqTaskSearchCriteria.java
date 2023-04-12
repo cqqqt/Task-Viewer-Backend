@@ -3,7 +3,15 @@ package com.taskviewer.api.web.rq;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public record RqTaskSearchCriteria(String username, String status, Integer priority) {
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+public record RqTaskSearchCriteria(
+	String title,
+	String username,
+	String status,
+	Integer priority,
+	LocalDateTime estimate) {
 
 	@Contract(value = " -> new", pure = true)
 	public static @NotNull TaskSearchSqlBuilder taskSearchSqlBuilder() {
@@ -24,6 +32,15 @@ public record RqTaskSearchCriteria(String username, String status, Integer prior
 			    l.username as username
 			FROM task t INNER JOIN login l on l.id = t.assigne
 			WHERE true""");
+
+		public TaskSearchSqlBuilder withTitle(String title) {
+			if(title != null) {
+				sql.append(" and title = '")
+					.append(title)
+					.append("'");
+			}
+			return this;
+		}
 
 		public TaskSearchSqlBuilder withUsername(String username) {
 			if(username != null) {
@@ -47,6 +64,14 @@ public record RqTaskSearchCriteria(String username, String status, Integer prior
 			if(priority != null) {
 				sql.append(" and priority = ")
 					.append(priority);
+			}
+			return this;
+		}
+
+		public TaskSearchSqlBuilder withEstimate(LocalDateTime estimate) {
+			if(estimate != null) {
+				sql.append(" and estimate = ")
+					.append( Timestamp.valueOf(estimate) );
 			}
 			return this;
 		}
