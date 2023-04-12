@@ -42,7 +42,7 @@ public record RqTaskUpdate(
       return this;
     }
 
-    public TaskUpdateSqlBuilder withAssigne(String username) {
+    public TaskUpdateSqlBuilder withAssignee(String username) {
       if (username != null) {
         sql.append(", assigne = (select l.id from login l where l.username = '")
           .append(username)

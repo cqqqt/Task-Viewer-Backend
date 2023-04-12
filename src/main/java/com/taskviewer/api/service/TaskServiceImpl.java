@@ -78,7 +78,7 @@ public class TaskServiceImpl implements TaskService {
 		String sql = RqTaskUpdate.taskUpdateSqlBuilder()
 			.withTitle( request.title() )
 			.withAbout( request.about() )
-			.withAssigne( request.username() )
+			.withAssignee( request.username() )
 			.withStatus( request.status() )
 			.withPriority( request.priority() )
 			.withEstimate( request.estimate() )
