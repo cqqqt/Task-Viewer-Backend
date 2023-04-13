@@ -26,7 +26,7 @@ public interface TaskService {
 
   Task add(Task task);
 
-  Task update(Task task);
+  Task update(Long id, RqTaskUpdate request);
 
   Task assign(Long id, Long user);
 

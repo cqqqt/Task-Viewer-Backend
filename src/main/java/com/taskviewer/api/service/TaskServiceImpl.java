@@ -16,91 +16,91 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-	private final Tasks tasks;
+  private final Tasks tasks;
 
-	@Override
-	@Transactional(readOnly = true)
-	public Task byId(Long id) {
-		return tasks.byId(id).orElseThrow(TaskNotFoundException::new);
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public Task byId(final Long id) {
+    return this.tasks.byId(id).orElseThrow(TaskNotFoundException::new);
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> byUsername(String username) {
-		return tasks.byUsername(username);
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> byUsername(final String username) {
+    return this.tasks.byUsername(username);
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> byEmail(String email) {
-		return tasks.byEmail(email);
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> byEmail(final String email) {
+    return this.tasks.byEmail(email);
+  }
 
-	@Override
-	@Transactional
-	public List<Task> byCriteria(@NotNull RqTaskSearchCriteria criteria) {
-		String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
-			.withTitle( criteria.title() )
-			.withUsername( criteria.username() )
-			.withStatus( criteria.status() )
-			.withPriority( criteria.priority() )
-			.withEstimate( criteria.estimate() )
-			.build();
-		return this.tasks.byCriteria(sql);
-	}
+  @Override
+  @Transactional
+  public List<Task> byCriteria(@NotNull final RqTaskSearchCriteria criteria) {
+    final String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
+      .withTitle(criteria.title())
+      .withUsername(criteria.username())
+      .withStatus(criteria.status())
+      .withPriority(criteria.priority())
+      .withEstimate(criteria.estimate())
+      .build();
+    return this.tasks.byCriteria(sql);
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> withPriority(int priority) {
-		return tasks.withPriority(priority);
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> withPriority(final int priority) {
+    return this.tasks.withPriority(priority);
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> withStatus(String status) {
-		return tasks.withStatus(status);
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> withStatus(final String status) {
+    return this.tasks.withStatus(status);
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> openAndAssigned() {
-		return this.tasks.openAndAssigned();
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> openAndAssigned() {
+    return this.tasks.openAndAssigned();
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Task> all() {
-		return tasks.all();
-	}
+  @Override
+  @Transactional(readOnly = true)
+  public List<Task> all() {
+    return this.tasks.all();
+  }
 
-	@Override
-	@Transactional
-	public Task add(Task task) {
-		this.tasks.add(task);
-		return this.byId( task.id() );
-	}
+  @Override
+  @Transactional
+  public Task add(final Task task) {
+    this.tasks.add(task);
+    return this.byId(task.id());
+  }
 
-	@Override
-	@Transactional
-	public Task update(Long id, @NotNull RqTaskUpdate request) {
-		String sql = RqTaskUpdate.taskUpdateSqlBuilder()
-			.withTitle( request.title() )
-			.withAbout( request.about() )
-			.withAssignee( request.username() )
-			.withStatus( request.status() )
-			.withPriority( request.priority() )
-			.withEstimate( request.estimate() )
-			.withTracked( request.tracked() )
-			.build(id);
-		this.tasks.update(sql);
-		return this.byId(id);
-	}
+  @Override
+  @Transactional
+  public Task update(final Long id, @NotNull final RqTaskUpdate request) {
+    final String sql = RqTaskUpdate.taskUpdateSqlBuilder()
+      .withTitle(request.title())
+      .withAbout(request.about())
+      .withAssignee(request.username())
+      .withStatus(request.status())
+      .withPriority(request.priority())
+      .withEstimate(request.estimate())
+      .withTracked(request.tracked())
+      .build(id);
+    this.tasks.update(sql);
+    return this.byId(id);
+  }
 
-	@Override
-	@Transactional
-	public Task assign(Long id, Long user) {
-		this.tasks.assign(id, user);
-		return this.byId(id);
-	}
+  @Override
+  @Transactional
+  public Task assign(final Long id, final Long user) {
+    this.tasks.assign(id, user);
+    return this.byId(id);
+  }
 
 }

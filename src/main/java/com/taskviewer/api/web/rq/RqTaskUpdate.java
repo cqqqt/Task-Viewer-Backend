@@ -1,10 +1,9 @@
 package com.taskviewer.api.web.rq;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
+import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import org.jetbrains.annotations.Contract;
 
 public record RqTaskUpdate(
   String title,
@@ -14,7 +13,7 @@ public record RqTaskUpdate(
   Integer priority,
   LocalDateTime estimate,
   LocalDateTime tracked
-  ) {
+) {
 
   @Contract(value = " -> new", pure = true)
   public static @NotNull RqTaskUpdate.TaskUpdateSqlBuilder taskUpdateSqlBuilder() {
