@@ -1,8 +1,8 @@
 package com.taskviewer.api.web.rq;
 
-import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Contract;
 
 public record RqTaskUpdate(
