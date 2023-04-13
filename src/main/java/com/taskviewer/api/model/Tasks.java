@@ -7,6 +7,8 @@ public interface Tasks {
 
   Optional<Task> byId(Long id);
 
+  List<Task> weeklyByUser(Long user);
+
   List<Task> byUsername(String username);
 
   List<Task> byEmail(String email);

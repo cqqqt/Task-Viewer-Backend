@@ -17,98 +17,124 @@ public class PgTasks implements Tasks {
   private final JdbcTemplate jdbc;
   private final ViewTask view;
 
-	protected static final String FIND_BY_ID = """
-     SELECT t.id AS task_id,
-        		   t.title AS title,
-        		   t.about AS about,
-        		   t.status AS status,
-        		   t.priority AS priority,
-        		   t.estimate AS estimate,
-        		   t.tracked AS tracked,
-        		   t.created as task_created,   
-        		   l.username as username
-     FROM task t INNER JOIN login l on l.id = t.assigne
-     WHERE t.id = ?""";
-	protected static final String FIND_BY_USERNAME = """
-		SELECT t.id AS task_id,
-			   t.title AS title,
-			   t.about AS about,
-			   t.status AS status,
-			   t.priority AS priority,
-			   t.estimate AS estimate,
-			   t.tracked AS tracked,
-			   t.created as task_created,
-			   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne
-		WHERE l.username = ?""";
-	protected static final String FIND_BY_EMAIL = """
-		SELECT t.id AS task_id,
-			   t.title AS title,
-			   t.about AS about,
-			   t.status AS status,
-			   t.priority AS priority,
-			   t.estimate AS estimate,
-			   t.tracked AS tracked,
-			   t.created as task_created,
-			   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne
-		WHERE l.email = ?""";
-	protected static final String FIND_WITH_PRIORITY = """
-		SELECT t.id AS task_id,
-			   t.title AS title,
-			   t.about AS about,
-			   t.status AS status,
-			   t.priority AS priority,
-			   t.estimate AS estimate,
-			   t.tracked AS tracked,
-			   t.created as task_created,
-			   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne
-		WHERE t.priority = ?""";
-	protected static final String FIND_WITH_STATUS = """
-		SELECT t.id AS task_id,
-			   t.title AS title,
-			   t.about AS about,
-			   t.status AS status,
-			   t.priority AS priority,
-			   t.estimate AS estimate,
-			   t.tracked AS tracked,
-			   t.created as task_created,	   
-			   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne
-		WHERE t.status = ?""";
-	protected static final String FIND_ALL = """
-		SELECT t.id AS task_id,
-			   t.title AS title,
-			   t.about AS about,
-			   t.status AS status,
-			   t.priority AS priority,
-			   t.estimate AS estimate,
-			   t.tracked AS tracked,
-			   t.created as task_created,
-			   l.username as username
-		FROM task t INNER JOIN login l on l.id = t.assigne""";
-	protected static final String CREATE = """
-        INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
-        VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
-	protected static final String UPDATE = """
-      UPDATE task set title = ?,
-      							  about = ?,
-      							  assigne = (SELECT l.id FROM login l WHERE l.username = ?),
-      							  status = ?,
-      							  priority = ?,
-      							  estimate = ?,
-      							  tracked = ?
-      WHERE task.id = ?""";
-	protected static final String ASSIGN = """
-			UPDATE task SET assigne = ?
-			WHERE task.id = ?""";
-      
+  protected static final String FIND_BY_ID = """
+    SELECT t.id AS task_id,
+       		   t.title AS title,
+       		   t.about AS about,
+       		   t.status AS status,
+       		   t.priority AS priority,
+       		   t.estimate AS estimate,
+       		   t.tracked AS tracked,
+       		   t.created as task_created,   
+       		   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne
+    WHERE t.id = ?""";
+  protected static final String FIND_BY_USERNAME = """
+    SELECT t.id AS task_id,
+    	   t.title AS title,
+    	   t.about AS about,
+    	   t.status AS status,
+    	   t.priority AS priority,
+    	   t.estimate AS estimate,
+    	   t.tracked AS tracked,
+    	   t.created as task_created,
+    	   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne
+    WHERE l.username = ?""";
+  protected static final String FIND_BY_EMAIL = """
+    SELECT t.id AS task_id,
+    	   t.title AS title,
+    	   t.about AS about,
+    	   t.status AS status,
+    	   t.priority AS priority,
+    	   t.estimate AS estimate,
+    	   t.tracked AS tracked,
+    	   t.created as task_created,
+    	   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne
+    WHERE l.email = ?""";
+  protected static final String FIND_WITH_PRIORITY = """
+    SELECT t.id AS task_id,
+    	   t.title AS title,
+    	   t.about AS about,
+    	   t.status AS status,
+    	   t.priority AS priority,
+    	   t.estimate AS estimate,
+    	   t.tracked AS tracked,
+    	   t.created as task_created,
+    	   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne
+    WHERE t.priority = ?""";
+  protected static final String FIND_WITH_STATUS = """
+    SELECT t.id AS task_id,
+    	   t.title AS title,
+    	   t.about AS about,
+    	   t.status AS status,
+    	   t.priority AS priority,
+    	   t.estimate AS estimate,
+    	   t.tracked AS tracked,
+    	   t.created as task_created,	   
+    	   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne
+    WHERE t.status = ?""";
+  protected static final String FIND_ALL = """
+    SELECT t.id AS task_id,
+    	   t.title AS title,
+    	   t.about AS about,
+    	   t.status AS status,
+    	   t.priority AS priority,
+    	   t.estimate AS estimate,
+    	   t.tracked AS tracked,
+    	   t.created as task_created,
+    	   l.username as username
+    FROM task t INNER JOIN login l on l.id = t.assigne""";
+  protected static final String CREATE = """
+    INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
+    VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
+  protected static final String UPDATE = """
+    UPDATE task set title = ?,
+    							  about = ?,
+    							  assigne = (SELECT l.id FROM login l WHERE l.username = ?),
+    							  status = ?,
+    							  priority = ?,
+    							  estimate = ?,
+    							  tracked = ?
+    WHERE task.id = ?""";
+  protected static final String ASSIGN = """
+    UPDATE task SET assigne = ?
+    WHERE task.id = ?""";
+
   @Override
   public Optional<Task> byId(Long id) {
     return jdbc.query(FIND_BY_ID, view, id)
       .stream()
       .findFirst();
+  }
+
+  @Override
+  public List<Task> weeklyByUser(final Long user) {
+    return this.jdbc.query(
+      """
+        SELECT t.id       AS task_id,
+               t.title    AS title,
+               t.about    AS about,
+               t.status   AS status,
+               t.priority AS priority,
+               t.estimate AS estimate,
+               t.tracked  AS tracked,
+               t.created  as task_created,
+               l.username as username
+        FROM task t
+                 JOIN login l on l.id = t.assigne
+        WHERE t.status != 'done'
+          AND l.id = ?
+          AND estimate BETWEEN
+              CURRENT_TIMESTAMP AND
+              CURRENT_TIMESTAMP + INTERVAL '7 days'
+        				""",
+      this.view,
+      user
+    );
   }
 
   @Override
@@ -121,16 +147,16 @@ public class PgTasks implements Tasks {
     return jdbc.query(FIND_BY_EMAIL, view, email);
   }
 
-	@Override
-	public List<Task> byCriteria(String sql) {
-		return jdbc.query(sql, view);
-	}
+  @Override
+  public List<Task> byCriteria(String sql) {
+    return jdbc.query(sql, view);
+  }
 
-	@Override
-	public List<Task> withPriority(int priority) {
-		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
-	}
-  
+  @Override
+  public List<Task> withPriority(int priority) {
+    return jdbc.query(FIND_WITH_PRIORITY, view, priority);
+  }
+
   @Override
   public List<Task> withStatus(String status) {
     return jdbc.query(FIND_WITH_STATUS, view, status);

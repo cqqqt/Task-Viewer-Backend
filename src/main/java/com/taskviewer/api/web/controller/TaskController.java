@@ -6,11 +6,14 @@ import com.taskviewer.api.service.MailService;
 import com.taskviewer.api.service.TaskService;
 import com.taskviewer.api.service.UserService;
 import com.taskviewer.api.web.rs.RsTask;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/tasks")

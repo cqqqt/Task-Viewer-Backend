@@ -7,26 +7,26 @@ import java.util.List;
 
 public interface TaskService {
 
-	Task byId(Long id);
+  Task byId(Long id);
 
-	List<Task> byUsername(String username);
+  List<Task> byUsername(String username);
 
-	List<Task> byEmail(String email);
+  List<Task> byEmail(String email);
 
-	List<Task> byCriteria(RqTaskSearchCriteria criteria);
+  List<Task> byCriteria(RqTaskSearchCriteria criteria);
 
-	List<Task> withPriority(int priority);
+  List<Task> withPriority(int priority);
 
-	List<Task> withStatus(String status);
+  List<Task> withStatus(String status);
 
-	List<Task> openAndAssigned();
+  List<Task> openAndAssigned();
 
-	List<Task> all();
+  List<Task> all();
 
-	Task add(Task task);
+  Task add(Task task);
 
-	Task update(Task task);
+  Task update(Task task);
 
-	Task assign(Long id, Long user);
+  Task assign(Long id, Long user);
 
 }
