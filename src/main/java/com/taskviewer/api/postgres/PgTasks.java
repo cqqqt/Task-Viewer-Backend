@@ -2,13 +2,12 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.Tasks;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -200,17 +199,10 @@ public class PgTasks implements Tasks {
       task.time().tracked());
   }
 
-  @Override
-  public void update(@NotNull Task task) {
-    jdbc.update(UPDATE,
-      task.title(),
-      task.about(),
-      task.username(),
-      task.status().value(),
-      task.status().priority(),
-      task.time().estimate(),
-      task.time().tracked());
-  }
+	@Override
+	public void update(String sql) {
+		jdbc.update(sql);
+	}
 
   @Override
   public void assign(Long id, Long user) {

@@ -25,7 +25,7 @@ public interface Tasks {
 
   void add(Task task);
 
-  void update(Task task);
+  void update(String sql);
 
   void assign(Long id, Long user);
 
