@@ -1,9 +1,10 @@
 package com.taskviewer.api.web.rs;
 
-import java.util.Locale;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.cactoos.text.FormattedText;
+
+import java.util.Locale;
 
 public interface RsError {
 

@@ -120,7 +120,7 @@ public class PgTasks implements Tasks {
 	public List<Task> withPriority(int priority) {
 		return jdbc.query(FIND_WITH_PRIORITY, view, priority);
 	}
-
+  
   @Override
   public List<Task> withStatus(String status) {
     return jdbc.query(FIND_WITH_STATUS, view, status);

@@ -2,10 +2,11 @@ package com.taskviewer.api.postgres;
 
 import com.taskviewer.api.model.Role;
 import com.taskviewer.api.model.User;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor

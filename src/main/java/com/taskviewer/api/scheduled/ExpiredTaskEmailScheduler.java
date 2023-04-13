@@ -4,12 +4,13 @@ import com.taskviewer.api.model.Task;
 import com.taskviewer.api.service.MailService;
 import com.taskviewer.api.service.TaskService;
 import com.taskviewer.api.service.UserService;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Component

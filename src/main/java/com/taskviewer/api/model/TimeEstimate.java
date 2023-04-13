@@ -1,7 +1,8 @@
 package com.taskviewer.api.model;
 
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 
 public interface TimeEstimate {
 

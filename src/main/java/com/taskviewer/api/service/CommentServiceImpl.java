@@ -3,10 +3,11 @@ package com.taskviewer.api.service;
 import com.taskviewer.api.model.Comment;
 import com.taskviewer.api.model.CommentNotFoundException;
 import com.taskviewer.api.model.Comments;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional(readOnly = true)
 @Component

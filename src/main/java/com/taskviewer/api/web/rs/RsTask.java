@@ -1,8 +1,9 @@
 package com.taskviewer.api.web.rs;
 
 import com.taskviewer.api.model.Task;
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class RsTask {
