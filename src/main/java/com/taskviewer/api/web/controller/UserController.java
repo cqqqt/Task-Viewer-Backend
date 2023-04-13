@@ -60,7 +60,7 @@ public class UserController {
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @PutMapping
   public RsUser update(
-    @AuthenticationPrincipal JwtUserDetails principal,
+    @AuthenticationPrincipal final JwtUserDetails principal,
     @RequestBody final RqUserUpdate request) {
     return new RsUser(
       this.users.update(
