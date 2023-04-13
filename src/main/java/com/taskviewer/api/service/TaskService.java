@@ -2,6 +2,7 @@ package com.taskviewer.api.service;
 
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
+import com.taskviewer.api.web.rq.RqTaskUpdate;
 
 import java.util.List;
 

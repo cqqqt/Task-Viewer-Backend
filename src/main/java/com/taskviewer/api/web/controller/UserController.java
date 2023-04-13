@@ -8,12 +8,18 @@ import com.taskviewer.api.service.UserService;
 import com.taskviewer.api.web.rq.RqUser;
 import com.taskviewer.api.web.rq.RqUserUpdate;
 import com.taskviewer.api.web.rs.RsUser;
+import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -54,7 +60,7 @@ public class UserController {
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @PutMapping
   public RsUser update(
-    @AuthenticationPrincipal final User principal,
+    @AuthenticationPrincipal final JwtUserDetails principal,
     @RequestBody final RqUserUpdate request) {
     return new RsUser(
       this.users.update(
