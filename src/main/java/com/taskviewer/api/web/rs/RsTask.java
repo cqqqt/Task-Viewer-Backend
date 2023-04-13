@@ -1,11 +1,12 @@
 package com.taskviewer.api.web.rs;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.taskviewer.api.model.Task;
+import java.time.LocalDateTime;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RsTask {
 
   private Long id;
