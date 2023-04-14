@@ -8,13 +8,13 @@ public interface TimeEstimate {
 
   LocalDateTime due();
 
-  LocalDateTime tracked();
+  int tracked();
 
   @RequiredArgsConstructor
   final class InMinutes implements TimeEstimate {
 
     private final LocalDateTime due;
-    private final LocalDateTime tracked;
+    private final int tracked;
 
     @Override
     public LocalDateTime due() {
@@ -22,7 +22,7 @@ public interface TimeEstimate {
     }
 
     @Override
-    public LocalDateTime tracked() {
+    public int tracked() {
       return this.tracked;
     }
   }

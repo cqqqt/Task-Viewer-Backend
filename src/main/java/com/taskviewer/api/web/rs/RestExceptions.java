@@ -1,6 +1,7 @@
-package com.taskviewer.api.web.controller;
+package com.taskviewer.api.web.rs;
 
 import com.taskviewer.api.model.AuthenticationException;
+import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.web.rs.JsonError;
@@ -16,6 +17,19 @@ public class RestExceptions {
 
   @ExceptionHandler(UserNotFoundException.class)
   public RsError userNotFound(final UserNotFoundException ex)
+    throws Exception {
+    final String message = ex.getMessage();
+    log.debug(message);
+    return new JsonError(
+      new RsError.WithCode(
+        404,
+        message
+      ).content()
+    );
+  }
+
+  @ExceptionHandler(TaskNotFoundException.class)
+  public RsError taskNotFound(final TaskNotFoundException ex)
     throws Exception {
     final String message = ex.getMessage();
     log.debug(message);

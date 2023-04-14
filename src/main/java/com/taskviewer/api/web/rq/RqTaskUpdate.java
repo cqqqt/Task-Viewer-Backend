@@ -12,7 +12,7 @@ public record RqTaskUpdate(
   String status,
   Integer priority,
   LocalDateTime due,
-  LocalDateTime tracked
+  Integer tracked
 ) {
 
   @Contract(value = " -> new", pure = true)
@@ -75,10 +75,10 @@ public record RqTaskUpdate(
       return this;
     }
 
-    public TaskUpdateSqlBuilder withTracked(LocalDateTime tracked) {
+    public TaskUpdateSqlBuilder withTracked(Integer tracked) {
       if (tracked != null) {
         sql.append(", tracked = ")
-          .append(Timestamp.valueOf(tracked));
+          .append(tracked);
       }
       return this;
     }

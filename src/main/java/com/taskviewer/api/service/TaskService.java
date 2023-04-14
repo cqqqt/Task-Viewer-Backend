@@ -33,4 +33,6 @@ public interface TaskService {
   Task assign(Long id, Long user);
 
   void delete(Long id);
+
+  Task track(Long id, Integer minutes);
 }

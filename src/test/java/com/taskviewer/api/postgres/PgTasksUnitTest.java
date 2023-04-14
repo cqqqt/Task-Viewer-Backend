@@ -48,10 +48,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		when( jdbc.query(PgTasks.FIND_BY_ID, view, id) ).thenReturn( Collections.singletonList(task) );
@@ -81,10 +78,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		Task task2 = PgTask.builder()
@@ -98,10 +92,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(7200),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(7200),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
@@ -124,10 +115,7 @@ class PgTasksUnitTest {
 						LocalDateTime.ofInstant(
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		Task task2 = PgTask.builder()
@@ -141,10 +129,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(7200),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(7200),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
@@ -171,10 +156,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		Task task2 = PgTask.builder()
@@ -188,10 +170,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(7200),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(7200),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
@@ -217,10 +196,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		Task task2 = PgTask.builder()
@@ -234,10 +210,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(7200),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(7200),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);
@@ -261,10 +234,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(6000),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(6000),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		Task task2 = PgTask.builder()
@@ -278,10 +248,7 @@ class PgTasksUnitTest {
 								Instant.ofEpochSecond(7200),
 								ZoneOffset.systemDefault()
 						),
-						LocalDateTime.ofInstant(
-								Instant.ofEpochSecond(7200),
-								ZoneOffset.systemDefault()
-						)
+						0
 				))
 				.build();
 		List<Task> tasks = new ArrayList<>(2);

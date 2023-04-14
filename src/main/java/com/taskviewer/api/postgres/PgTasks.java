@@ -26,7 +26,7 @@ public class PgTasks implements Tasks {
        		   t.tracked AS tracked,
        		   t.created as task_created,   
        		   l.username as username
-    FROM task t INNER JOIN login l on l.id = t.assigne
+    FROM task t LEFT JOIN login l on l.id = t.assigne
     WHERE t.id = ?""";
   protected static final String FIND_BY_USERNAME = """
     SELECT t.id AS task_id,
@@ -62,7 +62,7 @@ public class PgTasks implements Tasks {
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
-    FROM task t INNER JOIN login l on l.id = t.assigne
+    FROM task t LEFT JOIN login l on l.id = t.assigne
     WHERE t.priority = ?""";
   protected static final String FIND_WITH_STATUS = """
     SELECT t.id AS task_id,
@@ -74,7 +74,7 @@ public class PgTasks implements Tasks {
     	   t.tracked AS tracked,
     	   t.created as task_created,	   
     	   l.username as username
-    FROM task t INNER JOIN login l on l.id = t.assigne
+    FROM task t LEFT JOIN login l on l.id = t.assigne
     WHERE t.status = ?""";
   protected static final String FIND_ALL = """
     SELECT t.id AS task_id,
@@ -86,7 +86,7 @@ public class PgTasks implements Tasks {
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
-    FROM task t INNER JOIN login l on l.id = t.assigne""";
+    FROM task t LEFT JOIN login l on l.id = t.assigne""";
   protected static final String CREATE = """
     INSERT INTO task(title, about, assigne, status, priority, due, tracked)
     VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
@@ -202,6 +202,19 @@ public class PgTasks implements Tasks {
   @Override
   public void update(String sql) {
     jdbc.update(sql);
+  }
+
+  @Override
+  public void update(final Long id, final Integer minutes) {
+    this.jdbc.update(
+      """
+        UPDATE task
+        SET tracked = tracked + ?
+        WHERE id = ?
+        """,
+      minutes,
+      id
+    );
   }
 
   @Override

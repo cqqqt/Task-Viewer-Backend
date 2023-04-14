@@ -17,12 +17,6 @@ public class ViewTask implements RowMapper<Task> {
   @Override
   public Task mapRow(@NotNull final ResultSet rs, final int rows)
     throws SQLException {
-    final LocalDateTime tracked;
-    if (rs.getTimestamp("tracked") != null) {
-      tracked = rs.getTimestamp("tracked").toLocalDateTime();
-    } else {
-      tracked = null;
-    }
     return PgTask.builder()
       .id(rs.getLong("task_id"))
       .username(rs.getString("username"))
@@ -34,7 +28,7 @@ public class ViewTask implements RowMapper<Task> {
       )
       .time(new TimeEstimate.InMinutes(
           rs.getTimestamp("due").toLocalDateTime(),
-          tracked
+          rs.getInt("tracked")
         )
       )
       .created(rs.getTimestamp("task_created").toLocalDateTime())

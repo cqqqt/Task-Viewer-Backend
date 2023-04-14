@@ -1,19 +1,16 @@
 package com.taskviewer.api.service;
 
-import com.taskviewer.api.model.Comment;
 import com.taskviewer.api.model.Comments;
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 import com.taskviewer.api.web.rq.RqTaskUpdate;
-import java.util.function.Consumer;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -120,13 +117,19 @@ public class TaskServiceImpl implements TaskService {
   @Transactional
   public void delete(final Long id) {
     this.comments.byTask(id)
-      .forEach(new Consumer<Comment>() {
-        @Override
-        public void accept(Comment comment) {
-          comments.delete(comment.id());
-        }
-      });
+      .forEach(comment ->
+        this.comments.delete(
+          comment.id()
+        )
+      );
     this.tasks.delete(id);
+  }
+
+  @Override
+  @Transactional
+  public Task track(final Long id, final Integer minutes) {
+    this.tasks.update(id, minutes);
+    return this.byId(id);
   }
 
 }

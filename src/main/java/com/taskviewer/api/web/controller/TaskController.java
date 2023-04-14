@@ -48,7 +48,7 @@ public class TaskController {
         .title(request.title())
         .username(request.username())
         .status(new Status.Simple(request.status(), request.priority()))
-        .time(new TimeEstimate.InMinutes(request.due(), null))
+        .time(new TimeEstimate.InMinutes(request.due(), 0))
         .build()
     );
   }
@@ -67,7 +67,7 @@ public class TaskController {
   @PatchMapping("/{id}")
   public RsTask track(@PathVariable final Long id,
                       @RequestBody final RqTrackTime request) {
-    return null;
+    return new RsTask(this.tasks.track(id, request.minutes()));
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")

@@ -16,7 +16,7 @@ public class RsTask {
   private Integer priority;
   private String about;
   private LocalDateTime due;
-  private LocalDateTime tracked;
+  private int tracked;
   private LocalDateTime created;
 
   public RsTask(final Task task) {
@@ -40,7 +40,7 @@ public class RsTask {
                 final Integer priority,
                 final String about,
                 final LocalDateTime due,
-                final LocalDateTime tracked,
+                final int tracked,
                 final LocalDateTime created) {
     this.id = id;
     this.title = title;
