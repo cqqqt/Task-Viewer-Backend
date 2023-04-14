@@ -25,13 +25,13 @@ public class ExpirationEmailScheduler implements Scheduler {
     final List<Task> all = this.tasks.openAndAssigned();
     all.forEach(task -> {
       final long full = Duration.between(
-        task.time().tracked(), task.time().estimate()
+        task.time().tracked(), task.time().due()
       ).getSeconds();
       final LocalDateTime now = LocalDateTime.now();
       final long left = Duration.between(
-        now, task.time().estimate()
+        now, task.time().due()
       ).getSeconds();
-      if (left <= 0.2 * full && !now.isAfter(task.time().estimate())) {
+      if (left <= 0.2 * full && !now.isAfter(task.time().due())) {
         this.mails.send(
           this.users.byUsername(task.username()),
           "Task %s will be expired soon"

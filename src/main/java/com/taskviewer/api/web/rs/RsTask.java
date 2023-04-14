@@ -15,7 +15,7 @@ public class RsTask {
   private String username;
   private Integer priority;
   private String about;
-  private LocalDateTime estimate;
+  private LocalDateTime due;
   private LocalDateTime tracked;
   private LocalDateTime created;
 
@@ -27,7 +27,7 @@ public class RsTask {
       task.username(),
       task.status().priority(),
       task.about(),
-      task.time().estimate(),
+      task.time().due(),
       task.time().tracked(),
       task.created()
     );
@@ -39,7 +39,7 @@ public class RsTask {
                 final String username,
                 final Integer priority,
                 final String about,
-                final LocalDateTime estimate,
+                final LocalDateTime due,
                 final LocalDateTime tracked,
                 final LocalDateTime created) {
     this.id = id;
@@ -48,7 +48,7 @@ public class RsTask {
     this.username = username;
     this.priority = priority;
     this.about = about;
-    this.estimate = estimate;
+    this.due = due;
     this.tracked = tracked;
     this.created = created;
   }

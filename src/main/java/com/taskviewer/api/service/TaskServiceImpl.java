@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
       .withAssignee(request.username())
       .withStatus(request.status())
       .withPriority(request.priority())
-      .withEstimate(request.estimate())
+      .withDue(request.due())
       .withTracked(request.tracked())
       .build(id);
     this.tasks.update(sql);

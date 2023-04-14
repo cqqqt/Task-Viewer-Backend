@@ -25,12 +25,12 @@ public record RqTaskSearchCriteria(
 			    t.about AS about,
 			    t.status AS status,
 			    t.priority AS priority,
-			    t.estimate AS estimate,
+			    t.due AS due,
 			    t.tracked AS tracked,
 			    t.created as task_created,
 
 			    l.username as username
-			FROM task t INNER JOIN login l on l.id = t.assigne
+			FROM task t LEFT JOIN login l on l.id = t.assigne
 			WHERE true""");
 
 		public TaskSearchSqlBuilder withTitle(String title) {
@@ -70,7 +70,7 @@ public record RqTaskSearchCriteria(
 
 		public TaskSearchSqlBuilder withEstimate(LocalDateTime estimate) {
 			if(estimate != null) {
-				sql.append(" and estimate = ")
+				sql.append(" and due = ")
 					.append( Timestamp.valueOf(estimate) );
 			}
 			return this;

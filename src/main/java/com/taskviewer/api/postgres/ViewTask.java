@@ -33,7 +33,7 @@ public class ViewTask implements RowMapper<Task> {
         rs.getInt("priority"))
       )
       .time(new TimeEstimate.InMinutes(
-          rs.getTimestamp("estimate").toLocalDateTime(),
+          rs.getTimestamp("due").toLocalDateTime(),
           tracked
         )
       )

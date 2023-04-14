@@ -11,7 +11,7 @@ public record RqTaskUpdate(
   String username,
   String status,
   Integer priority,
-  LocalDateTime estimate,
+  LocalDateTime due,
   LocalDateTime tracked
 ) {
 
@@ -67,10 +67,10 @@ public record RqTaskUpdate(
       return this;
     }
 
-    public TaskUpdateSqlBuilder withEstimate(LocalDateTime estimate) {
-      if (estimate != null) {
-        sql.append(", estimate = ")
-          .append(Timestamp.valueOf(estimate));
+    public TaskUpdateSqlBuilder withDue(LocalDateTime due) {
+      if (due != null) {
+        sql.append(", due = ")
+          .append(Timestamp.valueOf(due));
       }
       return this;
     }

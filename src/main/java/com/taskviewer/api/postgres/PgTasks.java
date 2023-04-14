@@ -22,7 +22,7 @@ public class PgTasks implements Tasks {
        		   t.about AS about,
        		   t.status AS status,
        		   t.priority AS priority,
-       		   t.estimate AS estimate,
+       		   t.due AS due,
        		   t.tracked AS tracked,
        		   t.created as task_created,   
        		   l.username as username
@@ -34,7 +34,7 @@ public class PgTasks implements Tasks {
     	   t.about AS about,
     	   t.status AS status,
     	   t.priority AS priority,
-    	   t.estimate AS estimate,
+    	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
@@ -46,7 +46,7 @@ public class PgTasks implements Tasks {
     	   t.about AS about,
     	   t.status AS status,
     	   t.priority AS priority,
-    	   t.estimate AS estimate,
+    	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
@@ -58,7 +58,7 @@ public class PgTasks implements Tasks {
     	   t.about AS about,
     	   t.status AS status,
     	   t.priority AS priority,
-    	   t.estimate AS estimate,
+    	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
@@ -70,7 +70,7 @@ public class PgTasks implements Tasks {
     	   t.about AS about,
     	   t.status AS status,
     	   t.priority AS priority,
-    	   t.estimate AS estimate,
+    	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,	   
     	   l.username as username
@@ -82,13 +82,13 @@ public class PgTasks implements Tasks {
     	   t.about AS about,
     	   t.status AS status,
     	   t.priority AS priority,
-    	   t.estimate AS estimate,
+    	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
     	   l.username as username
     FROM task t INNER JOIN login l on l.id = t.assigne""";
   protected static final String CREATE = """
-    INSERT INTO task(title, about, assigne, status, priority, estimate, tracked)
+    INSERT INTO task(title, about, assigne, status, priority, due, tracked)
     VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
   protected static final String UPDATE = """
     UPDATE task set title = ?,
@@ -96,7 +96,7 @@ public class PgTasks implements Tasks {
     							  assigne = (SELECT l.id FROM login l WHERE l.username = ?),
     							  status = ?,
     							  priority = ?,
-    							  estimate = ?,
+    							  due = ?,
     							  tracked = ?
     WHERE task.id = ?""";
   protected static final String ASSIGN = """
@@ -119,7 +119,7 @@ public class PgTasks implements Tasks {
                t.about    AS about,
                t.status   AS status,
                t.priority AS priority,
-               t.estimate AS estimate,
+               t.due AS due,
                t.tracked  AS tracked,
                t.created  as task_created,
                l.username as username
@@ -127,7 +127,7 @@ public class PgTasks implements Tasks {
                  JOIN login l on l.id = t.assigne
         WHERE t.status != 'done'
           AND l.id = ?
-          AND estimate BETWEEN
+          AND due BETWEEN
               CURRENT_TIMESTAMP AND
               CURRENT_TIMESTAMP + INTERVAL '7 days'
         				""",
@@ -170,7 +170,7 @@ public class PgTasks implements Tasks {
                  t.about    AS about,
                  t.status   AS status,
                  t.priority AS priority,
-                 t.estimate AS estimate,
+                 t.due AS due,
                  t.tracked  AS tracked,
                  t.created  as task_created,
                  l.username as username
@@ -195,7 +195,7 @@ public class PgTasks implements Tasks {
       task.username(),
       task.status().value(),
       task.status().priority(),
-      task.time().estimate(),
+      task.time().due(),
       task.time().tracked());
   }
 

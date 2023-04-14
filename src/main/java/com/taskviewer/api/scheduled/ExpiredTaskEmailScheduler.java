@@ -32,7 +32,7 @@ public class ExpiredTaskEmailScheduler implements Scheduler {
     all.forEach(
       task -> {
         final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime estimate = task.time().estimate();
+        final LocalDateTime estimate = task.time().due();
         if (now.isAfter(estimate)) {
           this.mails.send(
             this.users.byUsername(task.username()),
