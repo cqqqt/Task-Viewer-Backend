@@ -24,10 +24,13 @@ public interface TaskService {
 
   List<Task> all();
 
-  Task add(Task task);
+  void add(Task task);
 
   Task update(Long id, RqTaskUpdate request);
 
+  Task update(Long id, String status);
+
   Task assign(Long id, Long user);
 
+  void delete(Long id);
 }

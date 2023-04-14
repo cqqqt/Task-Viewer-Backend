@@ -112,7 +112,9 @@ public class PgComments implements Comments {
   public List<Comment> byTask(final Long task) {
     return this.jdbc.query(
       """
-        SELECT l.username AS username,
+        SELECT c.id AS id,
+                l.username AS username,
+                t.id       AS tid,
                 t.title    AS title,
                 c.content  AS content
         FROM comment c

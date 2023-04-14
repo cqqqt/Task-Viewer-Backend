@@ -199,14 +199,37 @@ public class PgTasks implements Tasks {
       task.time().tracked());
   }
 
-	@Override
-	public void update(String sql) {
-		jdbc.update(sql);
-	}
+  @Override
+  public void update(String sql) {
+    jdbc.update(sql);
+  }
+
+  @Override
+  public void update(final Long id, final String status) {
+    this.jdbc.update(
+      """
+        UPDATE task 
+        SET status = ?
+        WHERE id = ?;
+        """,
+      status,
+      id
+    );
+  }
 
   @Override
   public void assign(Long id, Long user) {
     jdbc.update(ASSIGN, user, id);
+  }
+
+  @Override
+  public void delete(final Long id) {
+    this.jdbc.update(
+      """
+        DELETE FROM task WHERE id = ?
+        """,
+      id
+    );
   }
 
 }
