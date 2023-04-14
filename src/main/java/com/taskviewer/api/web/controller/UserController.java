@@ -77,6 +77,12 @@ public class UserController {
     );
   }
 
+  @GetMapping("/me")
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+  public RsUser me(@AuthenticationPrincipal final JwtUserDetails principal) {
+    return new RsUser(this.users.byUsername(principal.getUsername()));
+  }
+
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping("/@{username}")
   public RsUser byUsername(@PathVariable final String username) {
