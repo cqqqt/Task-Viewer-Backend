@@ -12,6 +12,7 @@ public class PgTask implements Task {
 
 	private Long id;
 	private String username;
+	private String reporter;
 	private String title;
 	private String about;
 	private Status status;
@@ -26,6 +27,11 @@ public class PgTask implements Task {
 	@Override
 	public String username() {
 		return this.username;
+	}
+
+	@Override
+	public String reporter() {
+		return this.reporter;
 	}
 
 	@Override

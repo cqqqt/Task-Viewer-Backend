@@ -8,6 +8,8 @@ public interface Task {
 
   String username();
 
+  String reporter();
+
   String title();
 
   String about();

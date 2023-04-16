@@ -25,8 +25,10 @@ public class PgTasks implements Tasks {
        		   t.due AS due,
        		   t.tracked AS tracked,
        		   t.created as task_created,   
-       		   l.username as username
+       		   l.username as username,
+       		   r.email AS reporter
     FROM task t LEFT JOIN login l on l.id = t.assigne
+    LEFT JOIN login r ON r.id = t.reporter
     WHERE t.id = ?""";
   protected static final String FIND_BY_USERNAME = """
     SELECT t.id AS task_id,
@@ -37,8 +39,10 @@ public class PgTasks implements Tasks {
     	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
-    	   l.username as username
+    	   l.username as username,
+    	   r.email AS reporter
     FROM task t INNER JOIN login l on l.id = t.assigne
+    LEFT JOIN login r ON r.id = t.reporter
     WHERE l.username = ?""";
   protected static final String FIND_BY_EMAIL = """
     SELECT t.id AS task_id,
@@ -49,8 +53,10 @@ public class PgTasks implements Tasks {
     	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
-    	   l.username as username
+    	   l.username as username,
+    	   r.email AS reporter
     FROM task t INNER JOIN login l on l.id = t.assigne
+    LEFT JOIN login r ON r.id = t.reporter
     WHERE l.email = ?""";
   protected static final String FIND_WITH_PRIORITY = """
     SELECT t.id AS task_id,
@@ -61,8 +67,10 @@ public class PgTasks implements Tasks {
     	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,
-    	   l.username as username
+    	   l.username as username,
+    	   r.email AS reporter
     FROM task t LEFT JOIN login l on l.id = t.assigne
+    LEFT JOIN login r ON r.id = t.reporter
     WHERE t.priority = ?""";
   protected static final String FIND_WITH_STATUS = """
     SELECT t.id AS task_id,
@@ -73,23 +81,30 @@ public class PgTasks implements Tasks {
     	   t.due AS due,
     	   t.tracked AS tracked,
     	   t.created as task_created,	   
-    	   l.username as username
+    	   l.username as username,
+    	   r.email AS reporter
     FROM task t LEFT JOIN login l on l.id = t.assigne
+    LEFT JOIN login r ON r.id = t.reporter
     WHERE t.status = ?""";
   protected static final String FIND_ALL = """
-    SELECT t.id AS task_id,
-    	   t.title AS title,
-    	   t.about AS about,
-    	   t.status AS status,
-    	   t.priority AS priority,
-    	   t.due AS due,
-    	   t.tracked AS tracked,
-    	   t.created as task_created,
-    	   l.username as username
-    FROM task t LEFT JOIN login l on l.id = t.assigne""";
+    SELECT t.id       AS task_id,
+           t.title    AS title,
+           t.about    AS about,
+           t.status   AS status,
+           t.priority AS priority,
+           t.due      AS due,
+           t.tracked  AS tracked,
+           t.created  AS task_created,
+           l.username AS username,
+           r.email AS reporter
+    FROM task t
+             LEFT JOIN login l ON l.id = t.assigne
+             LEFT JOIN login r ON r.id = t.reporter""";
   protected static final String CREATE = """
-    INSERT INTO task(title, about, assigne, status, priority, due, tracked)
-    VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?), ?, ?, ?, ?)""";
+    INSERT INTO task(title, about, assigne, reporter, status, priority, due, tracked)
+    VALUES (?, ?, (SELECT l.id FROM login l WHERE l.username = ?),
+            (SELECT r.id FROM login r WHERE r.username = ?),
+            ?, ?, ?, ?);""";
   protected static final String UPDATE = """
     UPDATE task set title = ?,
     							  about = ?,
@@ -122,9 +137,11 @@ public class PgTasks implements Tasks {
                t.due AS due,
                t.tracked  AS tracked,
                t.created  as task_created,
-               l.username as username
+               l.username as username,
+               r.email AS reporter
         FROM task t
                  JOIN login l on l.id = t.assigne
+                 LEFT JOIN login r ON r.id = t.reporter
         WHERE t.status != 'done'
           AND l.id = ?
           AND due BETWEEN
@@ -173,9 +190,11 @@ public class PgTasks implements Tasks {
                  t.due AS due,
                  t.tracked  AS tracked,
                  t.created  as task_created,
-                 l.username as username
+                 l.username as username,
+                 r.email AS reporter
           FROM task t
                    JOIN login l on l.id = t.assigne
+                   LEFT JOIN login r ON r.id = t.reporter
           WHERE t.status != 'done'
           			""",
       this.view
@@ -193,6 +212,7 @@ public class PgTasks implements Tasks {
       task.title(),
       task.about(),
       task.username(),
+      task.reporter(),
       task.status().value(),
       task.status().priority(),
       task.time().due(),
@@ -231,8 +251,8 @@ public class PgTasks implements Tasks {
   }
 
   @Override
-  public void assign(Long id, Long user) {
-    jdbc.update(ASSIGN, user, id);
+  public void assign(final Long id, final Long user) {
+    this.jdbc.update(ASSIGN, user, id);
   }
 
   @Override

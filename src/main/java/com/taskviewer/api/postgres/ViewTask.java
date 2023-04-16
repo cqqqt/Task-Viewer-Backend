@@ -20,6 +20,7 @@ public class ViewTask implements RowMapper<Task> {
     return PgTask.builder()
       .id(rs.getLong("task_id"))
       .username(rs.getString("username"))
+      .reporter(rs.getString("reporter"))
       .title(rs.getString("title"))
       .about(rs.getString("about"))
       .status(new Status.Simple(

@@ -28,9 +28,10 @@ public record RqTaskSearchCriteria(
 			    t.due AS due,
 			    t.tracked AS tracked,
 			    t.created as task_created,
-
-			    l.username as username
+			    l.username as username,
+			    r.email AS reporter
 			FROM task t LEFT JOIN login l on l.id = t.assigne
+			LEFT JOIN login r ON r.id = t.reporter
 			WHERE true""");
 
 		public TaskSearchSqlBuilder withTitle(String title) {

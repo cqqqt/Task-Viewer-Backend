@@ -13,12 +13,12 @@ import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 import com.taskviewer.api.web.rq.RqTaskUpdate;
 import com.taskviewer.api.web.rq.RqTrackTime;
 import com.taskviewer.api.web.rs.RsTask;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,11 +42,14 @@ public class TaskController {
   @PreAuthorize("hasAuthority('ADMIN')")
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
-  public void create(@RequestBody final RqTask request) {
+  public void create(
+    @AuthenticationPrincipal final JwtUserDetails principal,
+    @RequestBody final RqTask request) {
     this.tasks.add(
       PgTask.builder()
         .title(request.title())
         .username(request.username())
+        .reporter(principal.getUsername())
         .status(new Status.Simple(request.status(), request.priority()))
         .time(new TimeEstimate.InMinutes(request.due(), 0))
         .build()

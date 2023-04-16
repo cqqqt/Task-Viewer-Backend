@@ -13,6 +13,7 @@ public class RsTask {
   private String title;
   private String status;
   private String username;
+  private String reporter;
   private Integer priority;
   private String about;
   private LocalDateTime due;
@@ -25,6 +26,7 @@ public class RsTask {
       task.title(),
       task.status().value(),
       task.username(),
+      task.reporter(),
       task.status().priority(),
       task.about(),
       task.time().due(),
@@ -37,6 +39,7 @@ public class RsTask {
                 final String title,
                 final String status,
                 final String username,
+                final String reporter,
                 final Integer priority,
                 final String about,
                 final LocalDateTime due,
@@ -46,6 +49,7 @@ public class RsTask {
     this.title = title;
     this.status = status;
     this.username = username;
+    this.reporter = reporter;
     this.priority = priority;
     this.about = about;
     this.due = due;
