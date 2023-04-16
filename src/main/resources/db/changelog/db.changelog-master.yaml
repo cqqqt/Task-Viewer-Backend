@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/2023/003-due.xml
   - include:
       file: db/changelog/2023/004-tracked-int.xml
+  - include:
+      file: db/changelog/2023/005-reporter.xml
