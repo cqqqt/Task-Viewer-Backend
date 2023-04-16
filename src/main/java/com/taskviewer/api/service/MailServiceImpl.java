@@ -24,7 +24,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @SneakyThrows
-    public void send(final User user, final String subject, final String message) {
+    public void send(final String email, final String subject, final String message) {
         MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();
@@ -32,12 +32,11 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setSubject(subject);
         helper.setFrom(this.mailProperty.getHost());
-        helper.setTo(user.email());
+        helper.setTo(email);
         String content = stringWriter.getBuffer().toString();
         helper.setText(content, true);
         this.configuration.getTemplate("mail.ftl").process(model, stringWriter);
         this.javaMailSender.send(mimeMessage);
     }
-
 
 }

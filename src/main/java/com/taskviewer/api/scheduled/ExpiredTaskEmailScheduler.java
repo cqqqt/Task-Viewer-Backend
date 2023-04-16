@@ -34,8 +34,20 @@ public class ExpiredTaskEmailScheduler implements Scheduler {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime estimate = task.time().due();
         if (now.isAfter(estimate)) {
+          if (task.reporter() != null) {
+            this.mails.send(task.reporter(),
+              "@CC Task %s is expired"
+                .formatted(
+                  task.title()
+                ),
+              "@CC Task %s is expired"
+                .formatted(
+                  task.title()
+                )
+            );
+          }
           this.mails.send(
-            this.users.byUsername(task.username()),
+            this.users.byUsername(task.username()).email(),
             "Task %s is expired"
               .formatted(
                 task.title()

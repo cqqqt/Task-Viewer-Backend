@@ -123,7 +123,7 @@ public class TaskController {
     final User user = this.users.byUsername(username);
     final Task assigned = this.tasks.assign(id, user.id());
     this.mails.send(
-      user,
+      user.email(),
       "Task assigned to you",
       "Task %s was assigned to you"
         .formatted(
