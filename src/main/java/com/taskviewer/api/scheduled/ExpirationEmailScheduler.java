@@ -22,7 +22,7 @@ public class ExpirationEmailScheduler implements Scheduler {
   private final TaskService tasks;
 
   @Override
-  @Scheduled(cron = "0 */12 * * *")
+  @Scheduled(cron = "0 */12 * * * *")
   public void schedule() {
     final List<Task> all = this.tasks.openAndAssigned();
     all.forEach(
