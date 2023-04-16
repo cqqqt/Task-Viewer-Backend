@@ -13,6 +13,7 @@ import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 import com.taskviewer.api.web.rq.RqTaskUpdate;
 import com.taskviewer.api.web.rq.RqTrackTime;
 import com.taskviewer.api.web.rs.RsTask;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,26 @@ public class TaskController {
         .username(request.username())
         .status(new Status.Simple(request.status(), request.priority()))
         .time(new TimeEstimate.InMinutes(request.due(), 0))
+        .build()
+    );
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/replicate/{id}")
+  public void replicate(@PathVariable final Long id) {
+    final Task task = this.tasks.byId(id);
+    this.tasks.add(
+      PgTask.builder()
+        .title(task.title())
+        .username(task.username())
+        .status(task.status())
+        .time(
+          new TimeEstimate.InMinutes(
+            task.time().due().plusDays(1L),
+            0
+          )
+        )
         .build()
     );
   }
