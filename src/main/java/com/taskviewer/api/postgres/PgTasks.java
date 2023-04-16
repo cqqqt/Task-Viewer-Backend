@@ -187,7 +187,7 @@ public class PgTasks implements Tasks {
                  t.about    AS about,
                  t.status   AS status,
                  t.priority AS priority,
-                 t.due AS due,
+                 t.due AT TIME ZONE 'UTC' AS due,
                  t.tracked  AS tracked,
                  t.created  as task_created,
                  l.username as username,

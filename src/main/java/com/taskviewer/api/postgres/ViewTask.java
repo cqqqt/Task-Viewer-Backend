@@ -4,6 +4,8 @@ import com.taskviewer.api.model.Status;
 import com.taskviewer.api.model.Task;
 import com.taskviewer.api.model.TimeEstimate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -28,7 +30,8 @@ public class ViewTask implements RowMapper<Task> {
         rs.getInt("priority"))
       )
       .time(new TimeEstimate.InMinutes(
-          rs.getTimestamp("due").toLocalDateTime(),
+          rs.getTimestamp("due")
+            .toLocalDateTime(),
           rs.getInt("tracked")
         )
       )
