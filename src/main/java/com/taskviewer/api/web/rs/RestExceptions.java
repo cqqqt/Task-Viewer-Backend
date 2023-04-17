@@ -6,9 +6,14 @@ import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.web.rs.JsonError;
 import com.taskviewer.api.web.rs.RsError;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
@@ -76,6 +81,22 @@ public class RestExceptions {
       new RsError.WithCode(
         403,
         message
+      ).content()
+    );
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public RsError handle(final MethodArgumentNotValidException ex) throws Exception {
+    final Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getFieldErrors().forEach(fieldError ->
+      errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+    );
+    log.debug(ex.getMessage());
+    return new JsonError(
+      new RsError.WithCode(
+        400,
+        errors.values().toString()
       ).content()
     );
   }

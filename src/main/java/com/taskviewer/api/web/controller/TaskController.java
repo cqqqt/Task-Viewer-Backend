@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -44,7 +45,7 @@ public class TaskController {
   @PostMapping
   public void create(
     @AuthenticationPrincipal final JwtUserDetails principal,
-    @RequestBody final RqTask request) {
+    @RequestBody @Validated final RqTask request) {
     this.tasks.add(
       PgTask.builder()
         .title(request.title())
@@ -80,7 +81,7 @@ public class TaskController {
   @PutMapping("/{id}")
   public RsTask update(
     @PathVariable final Long id,
-    @RequestBody final RqTaskUpdate request) {
+    @RequestBody @Validated final RqTaskUpdate request) {
     return new RsTask(
       this.tasks.update(id, request)
     );
@@ -89,7 +90,7 @@ public class TaskController {
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @PatchMapping("/{id}")
   public RsTask track(@PathVariable final Long id,
-                      @RequestBody final RqTrackTime request) {
+                      @RequestBody @Validated final RqTrackTime request) {
     return new RsTask(this.tasks.track(id, request.minutes()));
   }
 

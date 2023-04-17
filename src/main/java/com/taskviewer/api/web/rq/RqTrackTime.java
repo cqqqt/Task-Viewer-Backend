@@ -1,4 +1,6 @@
 package com.taskviewer.api.web.rq;
 
-public record RqTrackTime(Integer minutes) {
+import jakarta.validation.constraints.NotNull;
+
+public record RqTrackTime(@NotNull Integer minutes) {
 }

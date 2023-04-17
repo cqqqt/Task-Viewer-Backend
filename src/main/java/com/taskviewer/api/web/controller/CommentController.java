@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CommentController {
   @PostMapping
   public RsComment create(
     @AuthenticationPrincipal final JwtUserDetails principal,
-    @RequestBody final RqComment request) {
+    @RequestBody @Validated final RqComment request) {
     return new RsComment(
       this.comments.with(
         PgComment.builder()
@@ -43,7 +44,7 @@ public class CommentController {
   @PutMapping("{id}")
   public RsComment update(
     @PathVariable final Long id,
-    @RequestBody final RqCommentUpdate request) {
+    @RequestBody @Validated final RqCommentUpdate request) {
     return new RsComment(
       this.comments.update(
         PgComment.builder()

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class UserController {
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping("/admin")
-  public RsUser addAdmin(@RequestBody final RqUser request) {
+  public RsUser addAdmin(@RequestBody @Validated final RqUser request) {
     if (this.users.userExists(request.email(), request.username())) {
       throw new UserAlreadyExistsException(
         "User with email %s or username %s already exists"
@@ -61,7 +62,7 @@ public class UserController {
   @PutMapping
   public RsUser update(
     @AuthenticationPrincipal final JwtUserDetails principal,
-    @RequestBody final RqUserUpdate request) {
+    @RequestBody @Validated final RqUserUpdate request) {
     return new RsUser(
       this.users.update(
         PgUser.builder()

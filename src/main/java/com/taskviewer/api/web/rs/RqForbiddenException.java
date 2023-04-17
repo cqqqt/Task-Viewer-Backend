@@ -1,4 +1,4 @@
-package com.taskviewer.api.web.controller;
+package com.taskviewer.api.web.rs;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

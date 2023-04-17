@@ -8,6 +8,7 @@ import com.taskviewer.api.web.rq.RqUser;
 import com.taskviewer.api.web.rs.RsUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +19,7 @@ public class AuthController {
   private final AuthService authService;
 
   @PostMapping("/login")
-  public JwtRs login(@RequestBody Authentication authentication) {
+  public JwtRs login(@RequestBody @Validated Authentication authentication) {
     return authService.login(authentication);
   }
 
@@ -29,7 +30,7 @@ public class AuthController {
 
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
-  public RsUser register(@RequestBody RqUser user) {
+  public RsUser register(@RequestBody @Validated RqUser user) {
     return new RsUser(
       authService.register(user)
     );

@@ -1,14 +1,19 @@
 package com.taskviewer.api.web.rq;
 
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public record RqTaskUpdate(
+  @Size(max = 128, message = "Title can not be more than 128 characters")
   String title,
+  @Size(max = 512, message = "Content can not be more than 512 characters")
   String about,
+  @Size(max = 32, message = "Username can not be more than 32 characters")
   String username,
+  @Size(max = 32, message = "Status can not be more than 32 characters")
   String status,
   Integer priority,
   LocalDateTime due,
