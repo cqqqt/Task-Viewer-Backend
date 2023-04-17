@@ -25,17 +25,20 @@ public class ExpiredTaskEmailScheduler implements Scheduler {
   @Scheduled(fixedDelay = 3600000L)
   public void schedule() {
     final List<Task> all = this.tasks.openAndAssigned();
-    log.debug(
-      "these tasks expired, emailing the assignees of them :{}",
-      all
-    );
+    log.debug("all open and assigned tasks :{}", all);
     all.forEach(
       task -> {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime estimate = task.time().due();
         if (now.isAfter(estimate)) {
           if (task.reporter() != null) {
-            this.mails.send(task.reporter(),
+            final String reporter = task.reporter();
+            log.debug(
+              "task expired email will be sent to reporter {}",
+              reporter
+            );
+            this.mails.send(
+              reporter,
               "@CC Task %s is expired"
                 .formatted(
                   task.title()
@@ -46,8 +49,12 @@ public class ExpiredTaskEmailScheduler implements Scheduler {
                 )
             );
           }
+          final String email = this.users.byUsername(
+            task.username()
+          ).email();
+          log.debug("task expired email will be sent to {}", email);
           this.mails.send(
-            this.users.byUsername(task.username()).email(),
+            email,
             "Task %s is expired"
               .formatted(
                 task.title()

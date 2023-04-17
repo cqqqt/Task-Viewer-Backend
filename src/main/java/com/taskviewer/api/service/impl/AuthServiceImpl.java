@@ -1,6 +1,10 @@
 package com.taskviewer.api.service.impl;
 
-import com.taskviewer.api.model.*;
+import com.taskviewer.api.model.Authentication;
+import com.taskviewer.api.model.AuthenticationException;
+import com.taskviewer.api.model.Role;
+import com.taskviewer.api.model.User;
+import com.taskviewer.api.model.UserAlreadyExistsException;
 import com.taskviewer.api.model.jwt.JwtRs;
 import com.taskviewer.api.model.jwt.JwtToken;
 import com.taskviewer.api.postgres.PgUser;

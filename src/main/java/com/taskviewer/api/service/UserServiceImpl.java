@@ -4,11 +4,13 @@ import com.taskviewer.api.model.User;
 import com.taskviewer.api.model.UserNotFoundException;
 import com.taskviewer.api.model.Users;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Component
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @Override
   public User with(final User user) {
+    log.debug("add user {}", user);
     this.users.add(user);
     return this.byUsername(user.username());
   }
@@ -26,12 +29,14 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @Override
   public User update(final User user) {
+    log.debug("update user {} with id {}", user, user.id());
     this.users.update(user);
     return this.byId(user.id());
   }
 
   @Override
   public User byId(final Long id) {
+    log.debug("find user by id {}", id);
     return this.users.byId(id)
       .orElseThrow(
         () ->
@@ -46,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User byUsername(final String username) {
+    log.debug("find user by username {}", username);
     return this.users.byUsername(username)
       .orElseThrow(
         () ->
@@ -60,6 +66,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String password(final User user) {
+    log.debug("fetch password from user {}", user);
     return this.users.password(user.id())
       .orElseThrow(
         () ->
@@ -79,6 +86,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> iterate(final UserSearchCriteria criteria) {
+    log.debug("user search criteria: {}", criteria);
     if (criteria.firstname() != null && criteria.lastname() != null) {
       return this.users.iterate(criteria.firstname(), criteria.lastname());
     } else {
