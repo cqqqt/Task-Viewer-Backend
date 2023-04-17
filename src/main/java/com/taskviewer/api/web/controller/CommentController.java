@@ -6,9 +6,11 @@ import com.taskviewer.api.service.CommentService;
 import com.taskviewer.api.web.rq.RqComment;
 import com.taskviewer.api.web.rq.RqCommentUpdate;
 import com.taskviewer.api.web.rs.RsComment;
+import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +25,14 @@ public class CommentController {
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
-  public RsComment create(@RequestBody final RqComment request) {
+  public RsComment create(
+    @AuthenticationPrincipal final JwtUserDetails principal,
+    @RequestBody final RqComment request) {
     return new RsComment(
       this.comments.with(
         PgComment.builder()
           .task(request.task())
-          .username(request.username())
+          .username(principal.getUsername())
           .content(request.content())
           .build()
       )
@@ -38,23 +42,23 @@ public class CommentController {
   @PreAuthorize("@securityRulesHandler.canAccessComment(#id)")
   @PutMapping("{id}")
   public RsComment update(
-    @PathVariable Long id,
+    @PathVariable final Long id,
     @RequestBody final RqCommentUpdate request) {
-      return new RsComment(
-        this.comments.update(
-          PgComment.builder()
-            .id(id)
-            .content(request.content())
-            .build()
-        )
-      );
+    return new RsComment(
+      this.comments.update(
+        PgComment.builder()
+          .id(id)
+          .content(request.content())
+          .build()
+      )
+    );
   }
 
   @PreAuthorize("@securityRulesHandler.canAccessComment(#id)")
   @DeleteMapping("{id}")
   public void delete(
     @PathVariable final Long id) {
-      this.comments.delete(id);
+    this.comments.delete(id);
   }
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
