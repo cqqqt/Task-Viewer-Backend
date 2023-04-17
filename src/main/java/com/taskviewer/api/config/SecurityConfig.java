@@ -1,9 +1,12 @@
 package com.taskviewer.api.config;
 
+import com.taskviewer.api.model.Role;
 import com.taskviewer.api.web.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -38,9 +41,15 @@ public class SecurityConfig {
       .and()
       .authorizeHttpRequests()
       .requestMatchers("/api/v1/auth/**").permitAll()
+      .requestMatchers("/system/**").hasAuthority(Role.ADMIN.getAuthority())
       .anyRequest().authenticated()
       .and()
       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
       .build();
+  }
+
+  @Bean
+  public AuthenticationManager manager(final AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
   }
 }
