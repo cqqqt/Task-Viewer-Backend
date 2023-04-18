@@ -53,6 +53,7 @@ public class TaskServiceImpl implements TaskService {
         .withStatus(criteria.status())
         .withPriority(criteria.priority())
         .withEstimate(criteria.estimate())
+        .withSort(criteria.sort())
         .build();
       return this.tasks.byCriteria(sql);
     }
