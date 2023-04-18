@@ -174,9 +174,12 @@ also, search criteria can be applied(Optional):
   "username": "...",
   "status": "...",
   "priority": "...",
-  "estimate": "..."
+  "estimate": "...",
+  "sort": "<sort option>"
 }
 ```
+
+sorting can be done with `status`, `title`, `username`, and `priority`.
 
 Get the Assigned Tasks:
 <br>
@@ -275,9 +278,12 @@ Body example:
 ```
 
 ### Scheduled Jobs
-[ExpirationEmailScheduler](https://github.com/cqqqt/Task-Viewer-Backend/blob/master/src/main/java/com/taskviewer/api/scheduled/ExpirationEmailScheduler.java) runs every `12h` and notifies assignee that task will be expired soon.
+
+[ExpirationEmailScheduler](https://github.com/cqqqt/Task-Viewer-Backend/blob/master/src/main/java/com/taskviewer/api/scheduled/ExpirationEmailScheduler.java)
+runs every `12h` and notifies assignee that task will be expired soon.
 <br>
-[ExpiredTaskEmailScheduler](https://github.com/cqqqt/Task-Viewer-Backend/blob/master/src/main/java/com/taskviewer/api/scheduled/ExpiredTaskEmailScheduler.java) runs every `1h` and notifies assignee and reporter that task was expired.
+[ExpiredTaskEmailScheduler](https://github.com/cqqqt/Task-Viewer-Backend/blob/master/src/main/java/com/taskviewer/api/scheduled/ExpiredTaskEmailScheduler.java)
+runs every `1h` and notifies assignee and reporter that task was expired.
 
 # Security
 
