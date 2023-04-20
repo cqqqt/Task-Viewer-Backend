@@ -25,8 +25,8 @@ SOFTWARE.
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
-                   logicalFilePath="001-initial-schema.xml">
-  <changeSet id="001" author="cqqqt">
+                   logicalFilePath="003-due.xml">
+  <changeSet id="003" author="cqqqt">
     <sql>
       ALTER TABLE task RENAME COLUMN estimate TO due;
     </sql>
