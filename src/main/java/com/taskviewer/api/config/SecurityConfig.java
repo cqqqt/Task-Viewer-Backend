@@ -1,6 +1,7 @@
 package com.taskviewer.api.config;
 
 import com.taskviewer.api.model.Role;
+import com.taskviewer.api.web.CorsFilter;
 import com.taskviewer.api.web.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -21,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtFilter jwtFilter;
+  private final CorsFilter cors;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -37,6 +40,7 @@ public class SecurityConfig {
       .sessionManagement()
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       .and()
+      .addFilterBefore(this.cors, ChannelProcessingFilter.class)
       .exceptionHandling()
       .and()
       .authorizeHttpRequests()
