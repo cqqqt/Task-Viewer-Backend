@@ -102,7 +102,7 @@ public class TaskController {
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
-  public List<RsTask> byCriteria(@RequestBody final RqTaskSearchCriteria criteria) {
+  public List<RsTask> byCriteria(@RequestBody(required = false) final RqTaskSearchCriteria criteria) {
     return this.tasks.byCriteria(criteria)
       .stream()
       .map(RsTask::new)
