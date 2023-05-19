@@ -226,9 +226,9 @@ Body example:
 
 Delete a Comment:
 <br>
-**DELETE** [**Admin, User**] ```/api/v1/tasks/{id}```
+**DELETE** [**Admin, User**] ```/api/v1/comments/{id}```
 <br>
-id - task id.
+id - comment id.
 
 **GET** [**Admin, User**] ```/api/v1/comments```
 <br>
