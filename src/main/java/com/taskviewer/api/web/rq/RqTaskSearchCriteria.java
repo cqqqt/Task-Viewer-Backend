@@ -46,7 +46,7 @@ public record RqTaskSearchCriteria(
 
     public TaskSearchSqlBuilder withUsername(String username) {
       if (username != null) {
-        sql.append(" and username = '")
+        sql.append(" and l.username = '")
           .append(username)
           .append("'");
       }
