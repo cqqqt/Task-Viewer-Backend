@@ -50,6 +50,7 @@ public class TaskController {
       PgTask.builder()
         .title(request.title())
         .username(request.username())
+        .about(request.about())
         .reporter(principal.getUsername())
         .status(new Status.Simple(request.status(), request.priority()))
         .time(new TimeEstimate.InMinutes(request.due(), 0))
