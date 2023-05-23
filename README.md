@@ -89,12 +89,7 @@ Get User info by username:
 
 also, search criteria can be applied(Optional):
 
-```json
-{
-  "firstname": "firstnameForSearch",
-  "lastname": "lastnameForSearch"
-}
-```
+```/api/v1/users?firstname=firstnameForSearch&lastname=lastnameForSearch```
 
 ### Tasks API
 
@@ -168,8 +163,10 @@ username - assignee's username.
 <br>
 also, search criteria can be applied(Optional):
 
-```json
-{
+```/api/v1/tasks?<args>```
+
+Args:
+```
   "title": "...",
   "username": "...",
   "status": "...",
@@ -234,12 +231,12 @@ id - comment id.
 <br>
 also, search criteria can be applied(Optional):
 
-```json
-{
-  "user": "1",
-  "task": "123"
-}
-```
+```/api/v1/comments?user=1&task=1```
+<br>
+```/api/v1/comments?user=1```
+<br>
+```/api/v1/comments?task=1```
+<br>
 
 ### Auth API
 
