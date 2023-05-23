@@ -133,7 +133,9 @@ public class PgComments implements Comments {
       """
          SELECT l.username AS username,
                  t.title    AS title,
-                 c.content  AS content
+                 c.content  AS content,
+                 t.id AS tid,
+                 c.id AS id
          FROM comment c
                    JOIN login l on l.id = c.login
                    JOIN task t on t.id = c.task

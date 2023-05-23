@@ -64,8 +64,16 @@ public class CommentController {
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
-  public List<RsComment> comments(@RequestBody final CommentSearchCriteria criteria) {
-    return this.comments.iterate(criteria)
+  public List<RsComment> comments(
+    @RequestParam(required = false) final Long user,
+    @RequestParam(required = false) final Long task
+  ) {
+    return this.comments.iterate(
+        new CommentSearchCriteria(
+          user,
+          task
+        )
+      )
       .stream()
       .map(RsComment::new)
       .toList();
