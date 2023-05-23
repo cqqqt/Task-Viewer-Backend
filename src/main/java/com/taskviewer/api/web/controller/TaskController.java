@@ -14,7 +14,10 @@ import com.taskviewer.api.web.rq.RqTaskUpdate;
 import com.taskviewer.api.web.rq.RqTrackTime;
 import com.taskviewer.api.web.rs.RsTask;
 import com.taskviewer.api.web.security.jwt.JwtUserDetails;
+
+import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -103,8 +107,25 @@ public class TaskController {
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
-  public List<RsTask> byCriteria(@RequestBody(required = false) final RqTaskSearchCriteria criteria) {
-    return this.tasks.byCriteria(criteria)
+  public List<RsTask> byCriteria(
+    @RequestParam(required = false) final String title,
+    @RequestParam(required = false) final String username,
+    @RequestParam(required = false) final String status,
+    @RequestParam(required = false) final String priority,
+    @RequestParam(required = false,
+      defaultValue = "off") final String estimate,
+    @RequestParam(required = false) final String sort
+  ) {
+    return this.tasks.byCriteria(
+        new RqTaskSearchCriteria(
+          title,
+          username,
+          status,
+          priority,
+          estimate,
+          sort
+        )
+      )
       .stream()
       .map(RsTask::new)
       .toList();

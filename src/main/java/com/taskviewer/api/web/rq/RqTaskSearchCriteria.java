@@ -10,8 +10,8 @@ public record RqTaskSearchCriteria(
   String title,
   String username,
   String status,
-  Integer priority,
-  LocalDateTime estimate,
+  String priority,
+  String estimate,
   String sort) {
 
   @Contract(value = " -> new", pure = true)

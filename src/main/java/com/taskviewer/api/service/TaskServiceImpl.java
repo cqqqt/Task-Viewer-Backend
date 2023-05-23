@@ -6,7 +6,10 @@ import com.taskviewer.api.model.TaskNotFoundException;
 import com.taskviewer.api.model.Tasks;
 import com.taskviewer.api.web.rq.RqTaskSearchCriteria;
 import com.taskviewer.api.web.rq.RqTaskUpdate;
+
+import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -47,14 +50,19 @@ public class TaskServiceImpl implements TaskService {
   public List<Task> byCriteria(final RqTaskSearchCriteria criteria) {
     log.debug("task search criteria: {}", criteria);
     if (criteria != null) {
-      final String sql = RqTaskSearchCriteria.taskSearchSqlBuilder()
-        .withTitle(criteria.title())
-        .withUsername(criteria.username())
-        .withStatus(criteria.status())
-        .withPriority(criteria.priority())
-        .withEstimate(criteria.estimate())
-        .withSort(criteria.sort())
-        .build();
+      final RqTaskSearchCriteria.TaskSearchSqlBuilder builder =
+        RqTaskSearchCriteria.taskSearchSqlBuilder()
+          .withTitle(criteria.title())
+          .withUsername(criteria.username())
+          .withStatus(criteria.status())
+          .withSort(criteria.sort());
+      if (!"off".equals(criteria.estimate())) {
+        builder.withEstimate(LocalDateTime.parse(criteria.estimate()));
+      }
+      if (criteria.priority() != null) {
+        builder.withPriority(Integer.valueOf(criteria.priority()));
+      }
+      final String sql = builder.build();
       return this.tasks.byCriteria(sql);
     }
     return this.all();
