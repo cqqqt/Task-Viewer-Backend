@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -92,8 +93,16 @@ public class UserController {
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
-  public List<RsUser> iterate(final UserSearchCriteria criteria) {
-    return this.users.iterate(criteria)
+  public List<RsUser> iterate(
+    @RequestParam final String firstname,
+    @RequestParam final String lastname
+  ) {
+    return this.users.iterate(
+        new UserSearchCriteria(
+          firstname,
+          lastname
+        )
+      )
       .stream()
       .map(RsUser::new)
       .toList();
