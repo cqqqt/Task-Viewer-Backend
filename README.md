@@ -153,7 +153,7 @@ id - task id.
 
 Assign the Task:
 <br>
-**PUT** [**Admin**] ```/api/v1/tasks/assign/{id}/{username}```
+**POST** [**Admin**] ```/api/v1/tasks/assign/{id}/{username}```
 <br>
 id - task id.
 <br>
