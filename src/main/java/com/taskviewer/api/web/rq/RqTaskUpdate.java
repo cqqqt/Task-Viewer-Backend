@@ -1,8 +1,10 @@
 package com.taskviewer.api.web.rq;
 
 import jakarta.validation.constraints.Size;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,7 +77,9 @@ public record RqTaskUpdate(
     public TaskUpdateSqlBuilder withDue(LocalDateTime due) {
       if (due != null) {
         sql.append(", due = ")
-          .append(Timestamp.valueOf(due));
+          .append(" ' ")
+          .append(Timestamp.valueOf(due))
+          .append(" ' ");
       }
       return this;
     }
