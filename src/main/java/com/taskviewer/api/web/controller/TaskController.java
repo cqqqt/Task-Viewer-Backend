@@ -134,9 +134,22 @@ public class TaskController {
   @PreAuthorize("hasAuthority('ADMIN')")
   @PatchMapping("/close/{id}")
   public RsTask close(@PathVariable final Long id) {
-    return new RsTask(
+    final RsTask done = new RsTask(
       this.tasks.update(id, "done")
     );
+    this.mails.send(
+      done.getReporter(), "Task %s is done by %s"
+        .formatted(
+          done.getTitle(),
+          done.getUsername()
+        ),
+      "Task %s is done by %s"
+        .formatted(
+          done.getTitle(),
+          done.getUsername()
+        )
+    );
+    return done;
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
