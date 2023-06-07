@@ -147,7 +147,7 @@ id - task id.
 
 Close the Task:
 <br>
-**PUT** [**Admin**] ```/api/v1/tasks/close/{id}```
+**PUT** [**Admin, User**] ```/api/v1/tasks/close/{id}```
 <br>
 id - task id.
 
