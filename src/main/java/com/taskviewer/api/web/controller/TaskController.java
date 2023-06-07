@@ -131,7 +131,7 @@ public class TaskController {
       .toList();
   }
 
-  @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @PatchMapping("/close/{id}")
   public RsTask close(@PathVariable final Long id) {
     final RsTask done = new RsTask(
