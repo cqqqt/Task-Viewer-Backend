@@ -142,11 +142,10 @@ public class PgTasks implements Tasks {
         FROM task t
                  JOIN login l on l.id = t.assigne
                  LEFT JOIN login r ON r.id = t.reporter
-        WHERE t.status != 'done'
-          AND l.id = ?
-          AND due BETWEEN
-              CURRENT_TIMESTAMP AND
-              CURRENT_TIMESTAMP + INTERVAL '7 days'
+                 WHERE t.status != 'done'
+                 AND l.id = ?
+                 AND due >= CURRENT_DATE
+                 AND due <= (CURRENT_DATE + INTERVAL '7 days' - EXTRACT(DOW FROM CURRENT_DATE) * INTERVAL '1 day')
         				""",
       this.view,
       user
