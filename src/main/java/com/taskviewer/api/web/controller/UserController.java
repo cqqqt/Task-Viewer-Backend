@@ -93,6 +93,15 @@ public class UserController {
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
+  public List<RsUser> iterate() {
+    return this.users.iterate()
+      .stream()
+      .map(RsUser::new)
+      .toList();
+  }
+
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+  @GetMapping("/search")
   public List<RsUser> iterate(
     @RequestParam final String firstname,
     @RequestParam final String lastname

@@ -19,4 +19,6 @@ public interface UserService {
   boolean userExists(String email, String username);
 
   List<User> iterate(UserSearchCriteria criteria);
+
+  List<User> iterate();
 }

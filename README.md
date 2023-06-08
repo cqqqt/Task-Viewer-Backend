@@ -87,9 +87,11 @@ Get User info by username:
 
 **GET** [**Admin, User**] ```/api/v1/users```
 
-also, search criteria can be applied(Optional):
+**GET** [**Admin, User**] ```/api/v1/users/search```
 
-```/api/v1/users?firstname=firstnameForSearch&lastname=lastnameForSearch```
+example:
+
+```/api/v1/users/search?firstname=firstnameForSearch&lastname=lastnameForSearch```
 
 ### Tasks API
 

@@ -90,7 +90,12 @@ public class UserServiceImpl implements UserService {
     if (criteria.firstname() != null && criteria.lastname() != null) {
       return this.users.iterate(criteria.firstname(), criteria.lastname());
     } else {
-      return this.users.iterate();
+      return this.iterate();
     }
+  }
+
+  @Override
+  public List<User> iterate() {
+    return this.users.iterate();
   }
 }
