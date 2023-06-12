@@ -14,10 +14,6 @@ import com.taskviewer.api.web.rq.RqTaskUpdate;
 import com.taskviewer.api.web.rq.RqTrackTime;
 import com.taskviewer.api.web.rs.RsTask;
 import com.taskviewer.api.web.security.jwt.JwtUserDetails;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -108,8 +106,8 @@ public class TaskController {
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
   @GetMapping
   public List<RsTask> byCriteria(
+    @AuthenticationPrincipal JwtUserDetails principal,
     @RequestParam(required = false) final String title,
-    @RequestParam(required = false) final String username,
     @RequestParam(required = false) final String status,
     @RequestParam(required = false) final String priority,
     @RequestParam(required = false,
@@ -119,7 +117,7 @@ public class TaskController {
     return this.tasks.byCriteria(
         new RqTaskSearchCriteria(
           title,
-          username,
+          principal.getUsername(),
           status,
           priority,
           estimate,
@@ -170,9 +168,11 @@ public class TaskController {
   }
 
   @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-  @GetMapping("/@{username}")
-  public List<RsTask> assigned(@PathVariable final String username) {
-    return this.tasks.byUsername(username)
+  @GetMapping("/my")
+  public List<RsTask> assigned(
+    @AuthenticationPrincipal final JwtUserDetails principal
+  ) {
+    return this.tasks.byUsername(principal.getUsername())
       .stream()
       .map(RsTask::new)
       .toList();
