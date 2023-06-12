@@ -168,9 +168,9 @@ also, search criteria can be applied(Optional):
 ```/api/v1/tasks?<args>```
 
 Args:
-```
+```json
+{
   "title": "...",
-  "username": "...",
   "status": "...",
   "priority": "...",
   "estimate": "...",
@@ -182,9 +182,8 @@ sorting can be done with `status`, `title`, `username`, and `priority`.
 
 Get the Assigned Tasks:
 <br>
-**GET** [**Admin, User**] ```/api/v1/tasks/@{username}```
+**GET** [**Admin, User**] ```/api/v1/tasks/my```
 <br>
-username - assignee's username.
 
 Get schedule for next 7 days:
 <br>
