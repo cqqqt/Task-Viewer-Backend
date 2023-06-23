@@ -17,6 +17,7 @@ import com.taskviewer.api.web.security.jwt.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -172,6 +174,17 @@ public class TaskController {
   public List<RsTask> assigned(
     @AuthenticationPrincipal final JwtUserDetails principal
   ) {
+    if (
+      principal.getAuthorities().stream().anyMatch(
+        authority -> "ADMIN".equals(authority.getAuthority()
+        )
+      )
+    ) {
+      return this.tasks.all()
+        .stream()
+        .map(RsTask::new)
+        .toList();
+    }
     return this.tasks.byUsername(principal.getUsername())
       .stream()
       .map(RsTask::new)
